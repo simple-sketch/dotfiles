@@ -1,0 +1,12 @@
+[opener]
+edit = [
+    { run = 'vim "$@"', block = true, desc = "Vim" },
+    { run = 'nvim "$@"', block = true, desc = "Neovim" },
+    { run = 'zed "$@"', block = true, desc = "Zed" }
+]
+
+[open]
+rules = [
+    { url = "*.ini", use = "edit" },
+    { mime = "text/*", use = "edit" }
+]
