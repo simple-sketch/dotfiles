@@ -138,6 +138,13 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #
 # Workspaces:
 #
+
+    # Move to next active workspace
+    bindsym $mod+Tab workspace next
+
+    # Move to previous active workspace
+    bindsym $mod+Shift+Tab workspace prev
+    
     # Switch to workspace
     bindsym $mod+1 workspace number 1
     bindsym $mod+2 workspace number 2
