@@ -64,7 +64,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     # Hold Alt press Shift key to toggle keyboard layout
     input "type:keyboard" {
         xkb_layout "us,lt"
-        xkb_options "grp:toggle"
+        xkb_options "grp:alt_shift_toggle"
     }
 
 #
