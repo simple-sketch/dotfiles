@@ -8,5 +8,8 @@ edit = [
 [open]
 rules = [
     { url = "*.ini", use = "edit" },
+    { url = "*.sh", use = "edit" },
+    { url = "*.vim", use = "edit" },
+    { url = ".vimrc", use = "edit" },
     { mime = "text/*", use = "edit" }
 ]
