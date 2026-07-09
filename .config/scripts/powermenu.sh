@@ -2,7 +2,7 @@
 
 # Create a YAD dropdown menu with power options
 action=$(yad --fixed --undecorated --entry --title="Power Menu" \
-    --button="OK:0" --button="Cancel:1" \
+    -button="Cancel:1" -button="OK:0" \
     --text="Choose an action:" \
     "Shutdown" "Reboot" "Suspend" "Log Out" "Lock")
 
@@ -12,7 +12,7 @@ if [ $? -eq 0 ]; then
         "Shutdown") systemctl poweroff ;;
         "Reboot") systemctl reboot ;;
         "Suspend") systemctl suspend ;;
-        "Log Out") i3-msg exit ;;
-        "Lock") i3lock ;;
+        "Log Out") loginctl terminate-session self ;;
+        "Lock") swaylock ;;
     esac
 fi
