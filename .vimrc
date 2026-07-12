@@ -80,6 +80,9 @@ set undofile
 " Toggle undo history ui
 nnoremap <F5> :UndotreeToggle<cr>
 
+" Toggle NERDTree
+nnoremap <F3> :NERDTreeToggle<CR>
+
 " Splits below :term command
 set splitbelow
 
@@ -87,4 +90,3 @@ noremap <C-j> <C-W>j
 noremap <C-k> <C-W>k
 noremap <C-h> <C-W>h
 noremap <C-l> <C-W>l
-
