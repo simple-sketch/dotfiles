@@ -22,6 +22,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'mbbill/undotree'
 Plug 'justinmk/vim-sneak'
 Plug 'wellle/targets.vim'
+Plug 'jlanzarotta/bufexplorer'
 
 call plug#end()
 
@@ -86,7 +87,8 @@ nnoremap <F3> :NERDTreeToggle<CR>
 " Splits below :term command
 set splitbelow
 
-noremap <C-j> <C-W>j
-noremap <C-k> <C-W>k
-noremap <C-h> <C-W>h
-noremap <C-l> <C-W>l
+nnoremap <C-H> <C-W><C-H>
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+
