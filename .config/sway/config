@@ -9,18 +9,16 @@ set $up k
 set $right l
 
 # Your preferred terminal emulator
-set $term ghostty
+set $term foot
 # Your preferred application launcher
 set $menu rofi -show combi -modes combi -combi-modes "window,drun,run" -show-icons
 # Your preferred browser
 set $browser firefox
 # Your preferred file manager
 set $file_manager $term -e yazi
-# Your preferred text editor
-set $text_editor $term -e vim
 
 # Disables hover-focus entirely. You must click a window to focus it
-focus_follows_mouse no
+focus_follows_mouse yes
 
 # The mouse will warp to the center of the active window every single time you change focus, even on the same monitor.
 mouse_warping container
