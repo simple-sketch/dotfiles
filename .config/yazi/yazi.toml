@@ -1,6 +1,6 @@
 [opener]
 edit = [
-    { run = 'vim "$@"', block = true, desc = "Vim" },
+    { run = 'vimx "$@"', block = true, desc = "Vim" },
     { run = 'nvim "$@"', block = true, desc = "Neovim" },
     { run = 'zed "$@"', block = true, desc = "Zed" }
 ]
