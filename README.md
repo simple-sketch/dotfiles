@@ -4,6 +4,10 @@ Fedora has a built-in feature to automatically hide the boot menu if it is a sin
 ```
 sudo grub2-editenv - set menu_auto_hide=1
 ```
+Vim with X11 support on Fedora (which enables the GUI/GVim and system clipboard +clipboard features)
+```
+sudo dnf install vim-X11
+```
 
 Various cli tools
 ```
