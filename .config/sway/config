@@ -15,10 +15,12 @@ set $menu rofi -show combi -modes combi -combi-modes "window,drun,run" -show-ico
 # Your preferred browser
 set $browser firefox
 # Your preferred file manager
-set $file_manager $term -e yazi
+set $file_manager thunar
+# Your preferred text editor
+set $text_editor $term -e nvim
 
 # Disables hover-focus entirely. You must click a window to focus it
-focus_follows_mouse yes
+# focus_follows_mouse no
 
 # The mouse will warp to the center of the active window every single time you change focus, even on the same monitor.
 mouse_warping container
@@ -31,6 +33,7 @@ bindsym $mod+Shift+v exec kanshictl switch portrait
 
 # Return to landscape mode (Mod + Shift + b)
 bindsym $mod+Shift+b exec kanshictl switch landscape
+
 
 ### Output configuration
 #
@@ -68,7 +71,7 @@ exec swayidle -w \
     # Hold Alt press Shift key to toggle keyboard layout
     input "type:keyboard" {
         xkb_layout "us,lt"
-        xkb_options "grp:alt_shift_toggle"
+        xkb_options "grp:win_space_toggle"
     }
 
 
@@ -145,7 +148,6 @@ exec swayidle -w \
 
     # Move to previous active workspace
     bindsym $mod+Shift+Tab workspace prev
-
     # Switch to workspace
     bindsym $mod+1 workspace number 1
     bindsym $mod+2 workspace number 2
@@ -231,28 +233,6 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
-bar {
-    position bottom
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-
-    # The default just shows the current date and time.
-    # status_command while date +'%F %R'; do sleep 60; done
-
-    # Using custom i3status-rs status bar
-    status_command /usr/bin/i3status-rs ~/.config/i3status-rust/config.toml
-
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
-}
 
 # Include configs from 3 locations:
 #  - /usr/share/sway/config.d
