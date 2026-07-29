@@ -10,7 +10,6 @@ profile docked {
     output "HDMI-A-1" mode 2560x1440 position 0,0
 }
 
-
 # Profile applied when only the laptop screen is used (fallback)
 profile undocked {
     output "eDP-1" enable
@@ -18,10 +17,12 @@ profile undocked {
 
 # Normal horizontal mode
 profile landscape {
-    output HDMI-A-1 enable transform normal position 0,0
+    output "eDP-1" disable
+    output "HDMI-A-1" mode 2560x1440 transform normal position 0,0
 }
 
-# Vertical mode
+# Vertical mode (270 degrees)
 profile portrait {
-    output HDMI-A-1 enable transform 270 position 0,0
+    output "eDP-1" disable
+    output "HDMI-A-1" mode 2560x1440 transform 90 position 0,0
 }
