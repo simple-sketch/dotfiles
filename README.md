@@ -1,6 +1,9 @@
 # Fedora
 
-Environment preparation commands
+Fedora has a built-in feature to automatically hide the boot menu if it is a single-OS installation.
+```
+sudo grub2-editenv - set menu_auto_hide=1
+```
 
 Various cli tools
 ```
