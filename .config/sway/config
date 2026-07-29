@@ -26,6 +26,12 @@ mouse_warping container
 # Starting kanshi (Dynamic Display Configuration for Wayland) from sway
 exec_always "pkill kanshi; kanshi"
 
+# Switch to portrait mode (Mod + Shift + v)
+bindsym $mod+Shift+v exec kanshictl switch portrait
+
+# Return to landscape mode (Mod + Shift + b)
+bindsym $mod+Shift+b exec kanshictl switch landscape
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
