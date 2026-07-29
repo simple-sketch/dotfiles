@@ -4,6 +4,13 @@ profile docked {
     output "HDMI-A-1" mode 1600x900 position 0,0
 }
 
+# Profile applied when external monitor is connected
+profile docked {
+    output "eDP-1" disable
+    output "HDMI-A-1" mode 2560x1440 position 0,0
+}
+
+
 # Profile applied when only the laptop screen is used (fallback)
 profile undocked {
     output "eDP-1" enable
