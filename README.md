@@ -1,5 +1,10 @@
 Environment preparation commands
 
+Various cli tools
+```
+sudo dnf install rg fzf bat fd
+```
+
 Ghostty 
 
 ```
