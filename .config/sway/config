@@ -129,6 +129,14 @@ exec swayidle -w \
     bindsym $mod+Up focus up
     bindsym $mod+Right focus right
 
+    # Scroll with $mod held to move focus to the other window pane
+    bindsym --whole-window $mod+button4 focus prev sibling
+    bindsym --whole-window $mod+button5 focus next sibling
+
+    # Scroll with $mod+Shift held to navigate through workspaces
+    bindsym --whole-window $mod+Shift+button4 workspace prev
+    bindsym --whole-window $mod+Shift+button5 workspace next
+
     # Move the focused window with the same, but add Shift
     bindsym $mod+Shift+$left move left
     bindsym $mod+Shift+$down move down
