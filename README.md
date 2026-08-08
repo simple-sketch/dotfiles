@@ -44,6 +44,12 @@ https://sdkman.io/
 
 # Void linux
 
+For noctalia battery info module
+```
+sudo xbps-install -S upower
+sudo ln -s /etc/sv/upower /var/service/
+```
+
 ```
 sudo xbps-install -S xtools
 ```
