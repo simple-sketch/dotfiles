@@ -194,6 +194,8 @@ Power managment and saving experimental?
 ```
 sudo xbps-install tlp tlp-pd tlp-rdw
 sudo ln -s /etc/sv/tlp /var/service/
+sudo tlp power-saver
+
 sudo ln -s /etc/sv/NetworkManager /var/service/
 ```
 
