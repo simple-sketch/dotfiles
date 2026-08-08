@@ -46,6 +46,11 @@ https://sdkman.io/
 
 SwayWM
 
+```
+sudo xbps-install -S bluez
+sudo ln -s /etc/sv/bluetoothd /var/service/
+```
+
 1. Install packages
 ```
 sudo xbps-install -Su sway seatd turnstile foot acpid
