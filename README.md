@@ -205,6 +205,10 @@ sudo xbps-install -S kanshi
 SDKman
 ```
 curl -s "https://get.sdkman.io" | bash
-after terminal reload install below jdk
+#after terminal reload install below jdk
 sdk install java 26.0.2-tem
+```
+neovim
+```
+sudo xbps-install -S neovim
 ```
