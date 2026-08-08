@@ -212,3 +212,13 @@ neovim
 ```
 sudo xbps-install -S neovim
 ```
+
+rsync(needed for zed ide and other apps)
+```
+sudo xbps-install -S rsync
+```
+
+Zed ide
+```
+curl -f https://zed.dev/install.sh | sh
+```
