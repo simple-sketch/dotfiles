@@ -41,3 +41,7 @@ https://zed.dev/
 SDKman
 
 https://sdkman.io/
+
+# Void linux
+
+
