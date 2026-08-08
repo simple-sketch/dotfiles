@@ -9,7 +9,7 @@ set $up k
 set $right l
 
 # Your preferred terminal emulator
-set $term foot
+set $term ghostty 
 # Your preferred application launcher
 set $menu rofi -show combi -modes combi -combi-modes "window,drun,run" -show-icons
 # Your preferred browser
@@ -33,6 +33,11 @@ bindsym $mod+Shift+v exec kanshictl switch portrait
 
 # Return to landscape mode (Mod + Shift + b)
 bindsym $mod+Shift+b exec kanshictl switch landscape
+
+# Start PipeWire audio (Void linux better use in sway config than using runit)
+exec pipewire
+exec pipewire-pulse
+exec wireplumber
 
 # Execute noctalia desktop shell
 exec noctalia
