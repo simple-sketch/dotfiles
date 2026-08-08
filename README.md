@@ -67,7 +67,15 @@ sudo ln -s /etc/sv/acpid /var/service/
 usermod -aG _seatd $USER
 ```
 
-5. Wire turnstile into PAM — edit /etc/pam.d/login and add a session line:
+5. To run the D-Bus session bus using a turnstile-managed user service:
+```
+mkdir -p ~/.config/service/dbus
+sudo ln -s /usr/share/examples/turnstile/dbus.run ~/.config/service/dbus/run
+sudo ln -s /usr/share/examples/turnstile/dbus.check ~/.config/service/dbus/check
+```
+
+SAME AS ABOVE?
+5.1 Wire turnstile into PAM — edit /etc/pam.d/login and add a session line:
 ```
 session optional pam_turnstile.so
 ```
