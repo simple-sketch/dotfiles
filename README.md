@@ -75,6 +75,12 @@ if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
 fi
 ```
 
+power profile
+```
+sudo xbps-install -S power-profiles-daemon
+sudo ln -s /etc/sv/power-profiles-daemon /var/service/
+```
+
 iwd installation and wpa_supplicant disable
 1. Install & enable services
 ```
