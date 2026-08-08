@@ -52,12 +52,6 @@ sudo xbps-install -S linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-int
 
 SwayWM
 
-```
-sudo xbps-install -S bluez libspa-bluetooth
-sudo ln -s /etc/sv/bluetoothd /var/service/
-sudo usermod -aG bluetooth $USER
-```
-
 1. Install packages
 ```
 sudo xbps-install -Su sway seatd turnstile foot acpid dbus
@@ -97,6 +91,13 @@ sudo xbps-install -S xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-porta
 pipewire sound 
 ```
 sudo xbps-install -S pipewire wireplumber
+```
+
+bluetooth
+```
+sudo xbps-install -S bluez libspa-bluetooth
+sudo ln -s /etc/sv/bluetoothd /var/service/
+sudo usermod -aG bluetooth $USER
 ```
 
 power profile
