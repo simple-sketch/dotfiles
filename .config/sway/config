@@ -34,6 +34,8 @@ bindsym $mod+Shift+v exec kanshictl switch portrait
 # Return to landscape mode (Mod + Shift + b)
 bindsym $mod+Shift+b exec kanshictl switch landscape
 
+# Execute noctalia desktop shell
+exec noctalia
 
 ### Output configuration
 #
