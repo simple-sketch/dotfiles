@@ -60,8 +60,9 @@ fc-cache -fv
 SwayWM
 
 ```
-sudo xbps-install -S bluez
+sudo xbps-install -S bluez libspa-bluetooth
 sudo ln -s /etc/sv/bluetoothd /var/service/
+sudo usermod -aG bluetooth $USER
 ```
 
 1. Install packages
@@ -109,7 +110,6 @@ sudo xbps-install -S xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-porta
 pipewire sound 
 ```
 sudo xbps-install -S pipewire wireplumber
-sudo xbps-install -S libspa-bluetooth
 ```
 
 power profile
