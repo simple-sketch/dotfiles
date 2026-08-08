@@ -44,6 +44,7 @@ https://sdkman.io/
 
 # Void linux
 
+
 Intel gpu drivers
 ```
 sudo xbps-install -S linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel intel-media-driver
@@ -99,6 +100,12 @@ if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
     exec sway
 fi
 ```
+
+XDG Desktop Portal
+```
+sudo xbps-install -S xdg-desktop-portal xdg-desktop-portal-wlr
+```
+
 pipewire sound 
 ```
 sudo xbps-install -S pipewire
