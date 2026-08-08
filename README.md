@@ -78,6 +78,12 @@ sudo xbps-install -S upower
 sudo ln -s /etc/sv/upower /var/service/
 ```
 
+Ghostty
+```
+sudo xbps-install ghostty
+```
+
+xtools is a collection of helper scripts and utilities for Void Linux designed to make working with xbps and the xbps-src package tree fast and simple. It includes shortcuts to build, install, track, and query local source packages without complex manual arguments
 ```
 sudo xbps-install -S xtools
 ```
