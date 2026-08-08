@@ -78,7 +78,7 @@ sudo ln -s /etc/sv/acpid /var/service/
 ```
 4. Let your user own a seat
 ```
-usermod -aG _seatd $USER
+sudo usermod -aG _seatd $USER
 ```
 
 5. To run the D-Bus session bus using a turnstile-managed user service:
