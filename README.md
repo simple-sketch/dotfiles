@@ -44,6 +44,21 @@ https://sdkman.io/
 
 # Void linux
 
+noctalia dependencies
+```
+sudo xbps-install meson ninja pkg-config git \
+  wayland-devel wayland-protocols libepoxy-devel \
+  MesaLib-devel libglvnd-devel cairo-devel \
+  pango-devel fontconfig-devel freetype-devel \
+  harfbuzz-devel libxkbcommon-devel pipewire-devel wireplumber-devel \
+  libsecret-devel libsodium-devel \
+  libcurl-devel pam-devel libwebp-devel libjxl-devel libsndfile-devel \
+  basu-devel sdbus-c++-devel \
+  libmd4c-devel tomlplusplus-devel libical-devel \
+  json-c++ stb \
+  polkit-devel librsvg-devel libqalculate-devel libxml2-devel jemalloc-devel
+```
+
 For noctalia battery info module
 ```
 sudo xbps-install -S upower
