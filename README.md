@@ -82,6 +82,7 @@ fi
 pipewire sound 
 ```
 sudo xbps-install -S pipewire
+sudo xbps-install -S libspa-bluetooth
 ```
 
 power profile
