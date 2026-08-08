@@ -190,6 +190,11 @@ sudo ln -s /etc/sv/upower /var/service/
 sudo xbps-install -S neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
 ```
 
+```
+sudo xbps-install -S void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree
+sudo xbps-install -Syu
+```
+
 SDKman
 ```
 curl -s "https://get.sdkman.io" | bash
