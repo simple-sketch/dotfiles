@@ -44,6 +44,19 @@ https://sdkman.io/
 
 # Void linux
 
+Noctalia is available through a custom XBPS repository.
+
+Step 1: Add the repository source
+```
+echo "repository=https://repo.voiders.dev" | sudo tee /etc/xbps.d/10-voiders-community.conf
+```
+
+Step 2: Sync and install Noctalia
+```
+sudo xbps-install -S
+sudo xbps-install noctalia
+```
+
 noctalia dependencies
 ```
 sudo xbps-install meson ninja pkg-config git \
