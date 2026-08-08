@@ -103,7 +103,7 @@ fi
 
 XDG Desktop Portal
 ```
-sudo xbps-install -S xdg-desktop-portal xdg-desktop-portal-wlr
+sudo xbps-install -S xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk io.elementary.files
 ```
 
 pipewire sound 
