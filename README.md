@@ -108,7 +108,7 @@ sudo xbps-install -S xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-porta
 
 pipewire sound 
 ```
-sudo xbps-install -S pipewire
+sudo xbps-install -S pipewire wireplumber
 sudo xbps-install -S libspa-bluetooth
 ```
 
