@@ -44,6 +44,18 @@ https://sdkman.io/
 
 # Void linux
 
+Intel gpu drivers
+```
+sudo xbps-install -S linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel intel-media-driver
+```
+
+nerd fonts
+
+```
+sudo xbps-install -Su nerd-fonts
+fc-cache -fv
+```
+
 SwayWM
 
 ```
