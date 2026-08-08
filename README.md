@@ -45,6 +45,10 @@ https://sdkman.io/
 # Void linux
 
 ```
+sudo xbps-install -S xtools
+```
+
+```
 sudo xbps-install -S yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
 ```
 
