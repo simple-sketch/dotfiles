@@ -190,6 +190,13 @@ sudo ln -s /etc/sv/upower /var/service/
 sudo xbps-install -S neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
 ```
 
+Power managment and saving experimental?
+```
+sudo xbps-install tlp tlp-pd tlp-rdw
+sudo ln -s /etc/sv/tlp /var/service/
+sudo ln -s /etc/sv/NetworkManager /var/service/
+```
+
 ```
 sudo xbps-install -S void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree
 sudo xbps-install -Syu
