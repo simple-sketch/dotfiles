@@ -44,6 +44,37 @@ https://sdkman.io/
 
 # Void linux
 
+SwayWM
+
+1. Install packages
+```
+sudo xbps-install -Su sway seatd turnstile foot acpid
+```
+
+3. Enable seatd (device/seat access) and turnstiled (session tracking) as runit services
+```
+sudo ln -s /etc/sv/seatd /var/service/
+sudo ln -s /etc/sv/turnstiled /var/service/
+sudo ln -s /etc/sv/acpid /var/service/
+```
+4. Let your user own a seat
+```
+usermod -aG _seatd $USER
+```
+
+5. Wire turnstile into PAM — edit /etc/pam.d/login and add a session line:
+```
+session optional pam_turnstile.so
+```
+This is what makes turnstiled actually create the session (XDG_RUNTIME_DIR, per-user D-Bus, etc.) when you log in at a getty/login prompt — no manual dbus-run-session wrapping needed.
+
+6. Auto-start sway on login — append to ~/.bash_profile (or ~/.zprofile):
+```
+if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+    exec sway
+fi
+```
+
 Noctalia is available through a custom XBPS repository.
 
 Step 1: Add the repository source
