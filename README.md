@@ -211,4 +211,20 @@ nerd fonts
 ```
 sudo xbps-install -Su nerd-fonts
 fc-cache -fv
+
+```
+using this y shell wrapper that provides the ability to change the current working directory when exiting Yazi.
+Use y instead of yazi to start, and press q to quit, you'll see the CWD changed. Sometimes, you don't want to change, press Q to quit.
+```
+cat >> ~/.bashrc << EOF
+
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	command rm -f -- "$tmp"
+}
+EOF
 ```
