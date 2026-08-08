@@ -75,6 +75,39 @@ if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
 fi
 ```
 
+iwd installation and wpa_supplicant disable
+1. Install & enable services
+```
+sudo xbps-install -Su iwd dbus
+sudo ln -s /etc/sv/dbus /var/service/
+sudo ln -s /etc/sv/iwd  /var/service/
+```
+2. Disable wpa_supplicant (if it was running/enabled)
+```
+sudo rm /var/service/wpa_supplicant
+```
+(dhcpcd stays enabled — it'll pick up the interface once iwd brings it up, no change needed there.)
+
+3. Connect via iwctl (interactive session):
+```
+iwctl
+```
+Then at the [iwd]# prompt, example with a fake network MyHomeWifi / password SuperSecret123:
+```
+[iwd]# device list
+[iwd]# station wlan0 scan
+[iwd]# station wlan0 get-networks
+[iwd]# station wlan0 connect MyHomeWifi
+Passphrase: SuperSecret123
+[iwd]# exit
+```
+One-liner (non-interactive) alternative:
+```
+iwctl --passphrase SuperSecret123 station wlan0 connect MyHomeWifi
+```
+
+iwd saves the credentials to /var/lib/iwd/MyHomeWifi.psk and auto-reconnects on boot from then on. Note: only root or users in the wheel group can run iwctl by default.
+
 Noctalia is available through a custom XBPS repository.
 
 Step 1: Add the repository source
