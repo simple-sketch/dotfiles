@@ -47,3 +47,7 @@ https://sdkman.io/
 ```
 sudo xbps-install -S yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
 ```
+
+```
+sudo xbps-install -S kanshi
+```
