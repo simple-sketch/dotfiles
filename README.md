@@ -202,3 +202,9 @@ sudo xbps-install -S yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg Ima
 ```
 sudo xbps-install -S kanshi
 ```
+SDKman
+```
+curl -s "https://get.sdkman.io" | bash
+after terminal reload install below jdk
+sdk install java 26.0.2-tem
+```
