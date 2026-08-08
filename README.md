@@ -67,7 +67,7 @@ sudo usermod -aG bluetooth $USER
 
 1. Install packages
 ```
-sudo xbps-install -Su sway seatd turnstile foot acpid
+sudo xbps-install -Su sway seatd turnstile foot acpid dbus
 ```
 
 3. Enable seatd (device/seat access) and turnstiled (session tracking) as runit services
@@ -75,6 +75,7 @@ sudo xbps-install -Su sway seatd turnstile foot acpid
 sudo ln -s /etc/sv/seatd /var/service/
 sudo ln -s /etc/sv/turnstiled /var/service/
 sudo ln -s /etc/sv/acpid /var/service/
+sudo ln -s /etc/sv/dbus /var/service/
 ```
 4. Let your user own a seat
 ```
@@ -121,8 +122,7 @@ sudo ln -s /etc/sv/power-profiles-daemon /var/service/
 iwd installation and wpa_supplicant disable
 1. Install & enable services
 ```
-sudo xbps-install -Su iwd dbus
-sudo ln -s /etc/sv/dbus /var/service/
+sudo xbps-install -Su iwd
 sudo ln -s /etc/sv/iwd  /var/service/
 ```
 2. Disable wpa_supplicant (if it was running/enabled)
