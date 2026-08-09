@@ -53,6 +53,10 @@ Intel gpu drivers
 ```
 sudo xbps-install -Sy linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel intel-media-driver
 ```
+XDG Desktop Portal
+```
+sudo xbps-install -S xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk io.elementary.files
+```
 ```
 sudo xbps-install -Sy xtools lazygit neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
 ```
@@ -94,11 +98,6 @@ swaywm config copy for customization
 ```
 mkdir -p ~/.config/sway
 cp /etc/sway/config ~/.config/sway/config
-```
-
-XDG Desktop Portal
-```
-sudo xbps-install -S xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk io.elementary.files
 ```
 
 pipewire sound 
