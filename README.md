@@ -48,17 +48,13 @@ void post-install update
 ```
 sudo xbps-install -Su
 ```
-xtools is a collection of helper scripts and utilities for Void Linux designed to make working with xbps and the xbps-src package tree fast and simple. It includes shortcuts to build, install, track, and query local source packages without complex manual arguments
-```
-sudo xbps-install -S xtools
-```
 
 Intel gpu drivers
 ```
-sudo xbps-install -S linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel intel-media-driver
+sudo xbps-install -Sy linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel intel-media-driver
 ```
 ```
-sudo xbps-install -S neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
+sudo xbps-install -Sy xtools neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
 ```
 
 SwayWM
