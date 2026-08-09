@@ -46,7 +46,7 @@ https://sdkman.io/
 
 void post-install update
 ```
-sudo xbps-install -Su
+sudo xbps-install -Suy
 ```
 
 Intel gpu drivers
