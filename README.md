@@ -57,6 +57,9 @@ Intel gpu drivers
 ```
 sudo xbps-install -S linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel intel-media-driver
 ```
+```
+sudo xbps-install -S neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
+```
 
 SwayWM
 
@@ -185,11 +188,6 @@ For noctalia battery info module
 sudo xbps-install -S upower
 sudo ln -s /etc/sv/upower /var/service/
 ```
-
-```
-sudo xbps-install -S neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
-```
-
 Power managment and saving experimental?
 ```
 sudo xbps-install tlp tlp-pd tlp-rdw
@@ -225,9 +223,6 @@ fc-cache -fv
 using this y shell wrapper that provides the ability to change the current working directory when exiting Yazi.
 Use y instead of yazi to start, and press q to quit, you'll see the CWD changed. Sometimes, you don't want to change, press Q to quit.
 ```
-cat >> ~/.bashrc << EOF
-
-
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	command yazi "$@" --cwd-file="$tmp"
@@ -235,7 +230,6 @@ function y() {
 	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
 	command rm -f -- "$tmp"
 }
-EOF
 ```
 Flatpak
 ```
