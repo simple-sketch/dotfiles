@@ -55,7 +55,7 @@ sudo xbps-install -Sy linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-in
 ```
 XDG Desktop Portal
 ```
-sudo xbps-install -S xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk io.elementary.files
+sudo xbps-install -Sy xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk io.elementary.files
 ```
 ```
 sudo xbps-install -Sy xtools foot lazygit neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
@@ -65,7 +65,7 @@ SwayWM
 
 1. Install packages
 ```
-sudo xbps-install -Su sway seatd turnstile acpid dbus
+sudo xbps-install -Sy sway seatd turnstile acpid dbus
 ```
 
 3. Enable seatd (device/seat access) and turnstiled (session tracking) as runit services
@@ -102,26 +102,26 @@ cp /etc/sway/config ~/.config/sway/config
 
 pipewire sound 
 ```
-sudo xbps-install -S pipewire wireplumber
+sudo xbps-install -Sy pipewire wireplumber
 ```
 
 bluetooth
 ```
-sudo xbps-install -S bluez libspa-bluetooth
+sudo xbps-install -Sy bluez libspa-bluetooth
 sudo ln -s /etc/sv/bluetoothd /var/service/
 sudo usermod -aG bluetooth $USER
 ```
 
 power profile
 ```
-sudo xbps-install -S power-profiles-daemon
+sudo xbps-install -Sy power-profiles-daemon
 sudo ln -s /etc/sv/power-profiles-daemon /var/service/
 ```
 
 iwd installation and wpa_supplicant disable
 1. Install & enable services
 ```
-sudo xbps-install -Su iwd
+sudo xbps-install -Sy iwd
 sudo ln -s /etc/sv/iwd  /var/service/
 ```
 2. Disable wpa_supplicant (if it was running/enabled)
@@ -157,15 +157,14 @@ Step 1: Add the repository source
 echo "repository=https://repo.voiders.dev" | sudo tee /etc/xbps.d/10-voiders-community.conf
 ```
 
-Step 2: Sync and install Noctalia
+Step 2: Install Noctalia
 ```
-sudo xbps-install -S
-sudo xbps-install noctalia
+sudo xbps-install -Sy noctalia
 ```
 
 noctalia dependencies
 ```
-sudo xbps-install meson ninja pkg-config git \
+sudo xbps-install -Sy meson ninja pkg-config git \
   wayland-devel wayland-protocols libepoxy-devel \
   MesaLib-devel libglvnd-devel cairo-devel \
   pango-devel fontconfig-devel freetype-devel \
@@ -180,16 +179,14 @@ sudo xbps-install meson ninja pkg-config git \
 
 For noctalia battery info module
 ```
-sudo xbps-install -S upower
+sudo xbps-install -Sy upower
 sudo ln -s /etc/sv/upower /var/service/
 ```
 Power managment and saving experimental?
 ```
-sudo xbps-install tlp tlp-pd tlp-rdw
+sudo xbps-install -Sy tlp
 sudo ln -s /etc/sv/tlp /var/service/
 sudo tlp power-saver
-
-sudo ln -s /etc/sv/NetworkManager /var/service/
 ```
 
 ```
