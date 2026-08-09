@@ -61,6 +61,11 @@ sudo xbps-install -Sy xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-port
 sudo xbps-install -Sy xtools foot lazygit neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
 ```
 
+```
+sudo xbps-install -Sy void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree
+sudo xbps-install -Syu
+```
+
 SwayWM
 
 1. Install packages
@@ -98,24 +103,6 @@ swaywm config copy for customization
 ```
 mkdir -p ~/.config/sway
 cp /etc/sway/config ~/.config/sway/config
-```
-
-pipewire sound 
-```
-sudo xbps-install -Sy pipewire wireplumber
-```
-
-bluetooth
-```
-sudo xbps-install -Sy bluez libspa-bluetooth
-sudo ln -s /etc/sv/bluetoothd /var/service/
-sudo usermod -aG bluetooth $USER
-```
-
-power profile
-```
-sudo xbps-install -Sy power-profiles-daemon
-sudo ln -s /etc/sv/power-profiles-daemon /var/service/
 ```
 
 iwd installation and wpa_supplicant disable
@@ -177,21 +164,29 @@ sudo xbps-install -Sy meson ninja pkg-config git \
   polkit-devel librsvg-devel libqalculate-devel libxml2-devel jemalloc-devel
 ```
 
+bluetooth and bluetooth audio
+```
+sudo xbps-install -Sy bluez libspa-bluetooth
+sudo ln -s /etc/sv/bluetoothd /var/service/
+sudo usermod -aG bluetooth $USER
+```
+
 For noctalia battery info module
 ```
 sudo xbps-install -Sy upower
 sudo ln -s /etc/sv/upower /var/service/
 ```
-Power managment and saving experimental?
+
+Power managment and saving
 ```
 sudo xbps-install -Sy tlp
 sudo ln -s /etc/sv/tlp /var/service/
 sudo tlp power-saver
 ```
 
+pipewire sound 
 ```
-sudo xbps-install -S void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree
-sudo xbps-install -Syu
+sudo xbps-install -Sy pipewire wireplumber
 ```
 
 SDKman
@@ -205,13 +200,7 @@ Zed ide
 ```
 curl -f https://zed.dev/install.sh | sh
 ```
-nerd fonts
 
-```
-sudo xbps-install -Su nerd-fonts
-fc-cache -fv
-
-```
 using this y shell wrapper that provides the ability to change the current working directory when exiting Yazi.
 Use y instead of yazi to start, and press q to quit, you'll see the CWD changed. Sometimes, you don't want to change, press Q to quit.
 ```
@@ -223,6 +212,7 @@ function y() {
 	command rm -f -- "$tmp"
 }
 ```
+
 Flatpak
 ```
 sudo xbps-install -S flatpak
@@ -230,4 +220,10 @@ sudo xbps-install -S flatpak
 # add flathub repo
 
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+```
+
+Nerd fonts
+```
+sudo xbps-install -Sy nerd-fonts
+fc-cache -fv
 ```
