@@ -58,14 +58,14 @@ XDG Desktop Portal
 sudo xbps-install -S xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk io.elementary.files
 ```
 ```
-sudo xbps-install -Sy xtools lazygit neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
+sudo xbps-install -Sy xtools foot lazygit neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
 ```
 
 SwayWM
 
 1. Install packages
 ```
-sudo xbps-install -Su sway seatd turnstile foot acpid dbus
+sudo xbps-install -Su sway seatd turnstile acpid dbus
 ```
 
 3. Enable seatd (device/seat access) and turnstiled (session tracking) as runit services
