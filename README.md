@@ -54,7 +54,7 @@ Intel gpu drivers
 sudo xbps-install -Sy linux-firmware-intel mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel intel-media-driver
 ```
 ```
-sudo xbps-install -Sy xtools neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
+sudo xbps-install -Sy xtools lazygit neovim kanshi ghostty rsync yazi bat ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg ImageMagick
 ```
 
 SwayWM
