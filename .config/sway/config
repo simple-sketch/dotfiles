@@ -8,22 +8,29 @@ set $down j
 set $up k
 set $right l
 
+# Execute noctalia desktop shell
+exec noctalia
+
 # Your preferred terminal emulator
 set $term ghostty 
 # Your preferred application launcher
-set $menu rofi -show combi -modes combi -combi-modes "window,drun,run" -show-icons
+# set $menu rofi -show combi -modes combi -combi-modes "window,drun,run" -show-icons
+set $menu noctalia msg panel-toggle launcher
 # Your preferred browser
 set $browser firefox
 # Your preferred file manager
-set $file_manager thunar
+set $file_manager $term -e yazi
 # Your preferred text editor
 set $text_editor $term -e nvim
+# Your preferred window switcher/overview
+# set $window_switcher_overview rofi -show combi -modes combi -combi-modes "window" -show-icons
+set $window_switcher_overview noctalia msg window-switcher
 
 # Disables hover-focus entirely. You must click a window to focus it
 # focus_follows_mouse no
 
 # The mouse will warp to the center of the active window every single time you change focus, even on the same monitor.
-mouse_warping container
+# mouse_warping container
 
 # Starting kanshi (Dynamic Display Configuration for Wayland) from sway
 exec_always "pkill kanshi; kanshi"
@@ -33,14 +40,6 @@ bindsym $mod+Shift+v exec kanshictl switch portrait
 
 # Return to landscape mode (Mod + Shift + b)
 bindsym $mod+Shift+b exec kanshictl switch landscape
-
-# Start PipeWire audio (Void/runit has no systemd user session to do this for us)
-exec pipewire
-exec pipewire-pulse
-exec wireplumber
-
-# Execute noctalia desktop shell
-exec noctalia
 
 ### Idle configuration
 
@@ -62,7 +61,7 @@ exec noctalia
   }
 
 
-    # Hold Alt press Shift key to toggle keyboard layout
+    # Hold super press space key to toggle keyboard layout
     input "type:keyboard" {
         xkb_layout "us,lt"
         xkb_options "grp:win_space_toggle"
@@ -73,18 +72,17 @@ exec noctalia
 #
 # Basics:
 #
-    # Start a terminal
-    bindsym $mod+Return exec $term
-
     # Kill focused window
     bindsym $mod+Shift+q kill
 
     # Kill focused window with right mouse click
     bindsym button3 kill
 
+    # Start a terminal
+    bindsym $mod+Return exec $term
+
     # Start your launcher
-    # bindsym $mod+d exec $menu
-    bindsym $mod+d exec noctalia msg panel-toggle launcher
+    bindsym $mod+d exec $menu
 
     # Start your browser
     bindsym $mod+y exec $browser
@@ -96,7 +94,7 @@ exec noctalia
     bindsym $mod+t exec $text_editor
 
     # Start window switcher
-    bindsym $mod+o exec  rofi -show combi -modes combi -combi-modes "window" -show-icons
+    bindsym $mod+o exec $window_switcher_overview  
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -237,6 +235,12 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+
+# Start PipeWire audio (Void/runit workaround)
+exec pipewire
+exec pipewire-pulse
+exec wireplumber
+
 # Media keys:
 #
 # Special keys to adjust brightness via brightnessctl
@@ -271,7 +275,6 @@ bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ to
 # the trick, it's all in the `wordexp(3)`.
 #
 # include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "/etc/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
+
 include /etc/sway/config.d/*
-
-
 include ~/.config/sway/noctalia
