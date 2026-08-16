@@ -1,12 +1,13 @@
 [opener]
 edit = [
-    { run = 'vimx "$@"', block = true, desc = "Vim" },
+    { run = 'neovide "$@"', orphan = true, desc = "Neovide" },
     { run = 'nvim "$@"', block = true, desc = "Neovim" },
-    { run = 'zed "$@"', block = true, desc = "Zed" }
+    { run = 'zed "$@"', block = true, desc = "Zed" },
+    { run = 'vim "$@"', block = true, desc = "Vim" }
 ]
 
 [open]
-rules = [
+prepend_rules = [
     { url = "*.ini", use = "edit" },
     { url = "*.sh", use = "edit" },
     { url = "*.vim", use = "edit" },

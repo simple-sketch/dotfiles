@@ -1,0 +1,54 @@
+# shikane - dynamic output configuration
+# Docs: man 5 shikane, man 1 shikanectl
+#
+# How selection works: a profile is only considered if EVERY connected display
+# matches an output AND no output in the profile is left unmatched. That is what
+# makes "docked" vs "undocked" automatic - no priority list needed.
+#
+# Ranking: "docked" uses full-text searches (n=...), "portrait" uses regex
+# searches (n/...). shikane always ranks regex below full-text, so "docked" wins
+# automatically and "portrait" is only ever reached via:
+#     shikanectl switch portrait
+
+# External monitor connected -> laptop panel off, HDMI landscape.
+[[profile]]
+name = "docked"
+    [[profile.output]]
+    search = "n=eDP-1"
+    enable = false
+
+    [[profile.output]]
+    search = "n=HDMI-A-1"
+    enable = true
+    mode = "2560x1440"
+    position = "0,0"
+    transform = "normal"
+
+# HDMI rotated 90 degrees, laptop panel STAYS ON to its right.
+# Rotated HDMI occupies x 0..1440, so eDP-1 starts at x=1440. y=740 centers the
+# 1080-tall laptop panel against the 2560-tall vertical monitor.
+# Manual only: shikanectl switch portrait
+[[profile]]
+name = "portrait"
+    [[profile.output]]
+    search = "n/^eDP-1$"
+    enable = true
+    mode = "preferred"
+    position = "1440,740"
+    transform = "normal"
+
+    [[profile.output]]
+    search = "n/^HDMI-A-1$"
+    enable = true
+    mode = "2560x1440"
+    position = "0,0"
+    transform = "90"
+
+# Nothing else connected -> laptop panel on.
+[[profile]]
+name = "undocked"
+    [[profile.output]]
+    search = "n=eDP-1"
+    enable = true
+    mode = "preferred"
+    position = "0,0"

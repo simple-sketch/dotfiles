@@ -8,48 +8,85 @@ set $down j
 set $up k
 set $right l
 
-# Execute noctalia desktop shell
-exec noctalia
+# Push session variables into the D-Bus activation environment, then start the
+# noctalia desktop shell. Anything D-Bus-activated (xdg-desktop-portal, gvfs)
+# inherits this environment, so it has to be set before noctalia connects --
+# hence the chained command rather than two separate exec lines, which sway
+# would spawn in order but without waiting.
+exec "dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_SESSION_DESKTOP QT_QPA_PLATFORM; exec noctalia"
+
+
+# Starting the polkit agent from sway
+exec /usr/libexec/xfce-polkit
+
+# Starting pipewire from sway
+# wireplumber and pipewire-pulse come up as its children via the drop-ins in
+# ~/.config/pipewire/pipewire.conf.d. If audio dies, restart it with: pipewire &
+exec pipewire
+
+# Window focus on mouseover
+# Options:
+#   yes    - focus follows mouse movements
+#   no     - focus does not follow mouse movements
+#   always - focus always follows mouse, even across different displays or containers without cursor movement
+focus_follows_mouse no
+
+# Command to see window info(app_id and and other useful stuff) 
+# swaymsg -t get_tree | bat 
+
+# Set behaviour for apps when instantiated to open. Sway opens app and navigates to that workspace
+for_window [app_id="Firefox"] move container to workspace number 1, workspace number 1
+
+# Enable floating for specific apps with some custom resolution
+for_window [app_id="flameshot*"] floating enable
+for_window [app_id="satty*"] floating enable
+for_window [app_id="noctalia*"] floating enable
+for_window [app_id="thunar"] floating enable, resize set 1200px 900px, move position center
+for_window [app_id="thunar" title="Properties"] floating enable, resize set  900px 600px, move position center
+
+# Enable floating for common window types and roles
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="preferences"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+
 
 # Your preferred terminal emulator
-set $term ghostty 
+set $term foot 
+
 # Your preferred application launcher
-# set $menu rofi -show combi -modes combi -combi-modes "window,drun,run" -show-icons
+#set $menu wmenu-run
 set $menu noctalia msg panel-toggle launcher
+
 # Your preferred browser
 set $browser firefox
-# Your preferred file manager
-set $file_manager $term -e yazi
+
+# Your preferred floating terminal emulator
+set $floating_term alacritty
+for_window [app_id="Alacritty"] floating enable, resize set 1200px 900px, move position center
+
 # Your preferred text editor
 set $text_editor $term -e nvim
+
 # Your preferred window switcher/overview
-# set $window_switcher_overview rofi -show combi -modes combi -combi-modes "window" -show-icons
 set $window_switcher_overview noctalia msg window-switcher
 
-# Disables hover-focus entirely. You must click a window to focus it
-# focus_follows_mouse no
+## Dynamic Display Configuration(shikane)
 
-# The mouse will warp to the center of the active window every single time you change focus, even on the same monitor.
-# mouse_warping container
-
-# Starting kanshi (Dynamic Display Configuration for Wayland) from sway
-exec_always "pkill kanshi; kanshi"
+# Starting shikane from sway
+# Profiles live in ~/.config/shikane/config.toml. External monitor connected ->
+# "docked" (laptop panel off); nothing else connected -> "undocked".
+exec_always "pkill -x shikane; shikane"
 
 # Switch to portrait mode (Mod + Shift + v)
-bindsym $mod+Shift+v exec kanshictl switch portrait
+bindsym $mod+Shift+v exec shikanectl switch portrait
 
-# Return to landscape mode (Mod + Shift + b)
-bindsym $mod+Shift+b exec kanshictl switch landscape
+# Switch to landscape mode (Mod + Shift + b)
+bindsym $mod+Shift+b exec shikanectl switch docked
 
-### Idle configuration
-
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
 
 ## Input configuration
 
@@ -61,11 +98,14 @@ bindsym $mod+Shift+b exec kanshictl switch landscape
   }
 
 
-    # Hold super press space key to toggle keyboard layout
+    # Hold Super press backslash key to toggle keyboard layout US,LT
     input "type:keyboard" {
         xkb_layout "us,lt"
-        xkb_options "grp:win_space_toggle"
     }
+
+    # Super + \ toggles keyboard layout US < -- > LT
+    bindsym --to-code $mod+backslash input "type:keyboard" xkb_switch_layout next
+
 
 
 ### Key bindings
@@ -75,7 +115,7 @@ bindsym $mod+Shift+b exec kanshictl switch landscape
     # Kill focused window
     bindsym $mod+Shift+q kill
 
-    # Kill focused window with right mouse click
+    # Kill focused window with right mouse click on window titlebar
     bindsym button3 kill
 
     # Start a terminal
@@ -87,8 +127,8 @@ bindsym $mod+Shift+b exec kanshictl switch landscape
     # Start your browser
     bindsym $mod+y exec $browser
 
-    # Start your file manager
-    bindsym $mod+n exec $file_manager
+    # Start your floating terminal
+    bindsym $mod+Shift+Return exec $floating_term
 
     # Start your text editor
     bindsym $mod+t exec $text_editor
@@ -236,11 +276,6 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
-# Start PipeWire audio (Void/runit workaround)
-exec pipewire
-exec pipewire-pulse
-exec wireplumber
-
 # Media keys:
 #
 # Special keys to adjust brightness via brightnessctl
@@ -253,28 +288,14 @@ bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ 
 bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
-# Include configs from 3 locations:
-#  - /usr/share/sway/config.d
-#  - /etc/sway/config.d
-#  - $XDG_CONFIG_HOME/sway/config.d ($HOME/.config/sway/config.d)
-#
-# If multiple directories contain the files with the same name, the later
-# directory takes precedence; `$XDG_CONFIG_HOME/sway/config.d/20-swayidle.conf`
-# will always be loaded instead of `/usr/share/sway/config.d/20-swayidle.conf`
-# or `/etc/sway/config.d/20-swayidle.conf`
-#
-# This mechanism permits overriding our default configuration per-system
-# (/etc) or per-user ($XDG_CONFIG_HOME) basis. Just create the file you
-# want to modify/override in the higher-level directory.
-#
-# For example, to disable the default bar from Fedora configs, you'll need to
-#     $ echo -n > "$HOME/.config/sway/config.d/90-bar.conf"
-#
-# Note the quoting, the $() and the arguments quoting. All the parts are equally
-# important to make the magic work. And if you want to learn the secret behind
-# the trick, it's all in the `wordexp(3)`.
-#
-# include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "/etc/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
+# Special keys to control media via playerctl
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86AudioPause exec playerctl play-pause
+bindsym --locked XF86AudioPrev exec playerctl previous
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioStop exec playerctl stop
 
-include /etc/sway/config.d/*
-include ~/.config/sway/noctalia
+
+# Special key to take a screenshot with flameshot
+bindsym Print exec flameshot gui
+
