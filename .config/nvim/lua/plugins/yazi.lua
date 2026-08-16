@@ -9,6 +9,17 @@ return {
     keys = {
         -- 👇 in this section, choose your own keymappings!
         {
+            "<leader>e",
+            mode = { "n", "v" },
+            "<cmd>Yazi<cr>",
+            desc = "Open yazi at the current file",
+        },
+        {
+            "<leader>E",
+            "<cmd>Yazi cwd<cr>",
+            desc = "Open yazi (cwd)",
+        },
+        {
             "<leader>-",
             mode = { "n", "v" },
             "<cmd>Yazi<cr>",
@@ -29,9 +40,14 @@ return {
     ---@type YaziConfig | {}
     opts = {
         -- if you want to open yazi instead of netrw, see below for more info
-        open_for_directories = false,
+        open_for_directories = true,
         keymaps = {
             show_help = "<f1>",
+        },
+        integrations = {
+            -- LazyVim uses the snacks picker here, not telescope (yazi.nvim's default)
+            grep_in_directory = "snacks.picker",
+            grep_in_selected_files = "snacks.picker",
         },
     },
     -- 👇 if you use `open_for_directories=true`, this is recommended
