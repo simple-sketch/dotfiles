@@ -44,6 +44,27 @@ name = "portrait"
     position = "0,0"
     transform = "90"
 
+# Both screens on, side by side: HDMI landscape, laptop panel to its right.
+# HDMI occupies x 0..2560, so eDP-1 starts at x=2560. y=180 centers the
+# 1080-tall laptop panel against the 1440-tall external monitor.
+# Manual only (regex searches keep it ranked below "docked"):
+#     shikanectl switch extend
+[[profile]]
+name = "extend"
+    [[profile.output]]
+    search = "n/^HDMI-A-1$"
+    enable = true
+    mode = "2560x1440"
+    position = "0,0"
+    transform = "normal"
+
+    [[profile.output]]
+    search = "n/^eDP-1$"
+    enable = true
+    mode = "preferred"
+    position = "2560,180"
+    transform = "normal"
+
 # Nothing else connected -> laptop panel on.
 [[profile]]
 name = "undocked"
