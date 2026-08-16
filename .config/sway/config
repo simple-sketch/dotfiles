@@ -88,6 +88,9 @@ bindsym $mod+Shift+v exec shikanectl switch portrait
 # Switch to landscape mode (Mod + Shift + b)
 bindsym $mod+Shift+b exec shikanectl switch docked
 
+# Both screens on, laptop panel right of the external one (Mod + Shift + g)
+bindsym $mod+Shift+g exec shikanectl switch extend
+
 
 ## Input configuration
 
