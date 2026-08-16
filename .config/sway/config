@@ -63,6 +63,7 @@ set $menu noctalia msg panel-toggle launcher
 
 # Your preferred browser
 set $browser firefox
+set $browser_focus_or_new ~/.config/sway/scripts/browser.sh
 
 # Your preferred floating terminal emulator
 set $floating_term alacritty
@@ -124,8 +125,8 @@ bindsym $mod+Shift+b exec shikanectl switch docked
     # Start your launcher
     bindsym $mod+d exec $menu
 
-    # Start your browser
-    bindsym $mod+y exec $browser
+    # Start your browser (focus an existing one first, new window if already focused)
+    bindsym $mod+y exec $browser_focus_or_new
 
     # Start your floating terminal
     bindsym $mod+Shift+Return exec $floating_term
