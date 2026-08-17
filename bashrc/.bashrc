@@ -32,14 +32,6 @@ shopt -s cdspell dirspell              # fix minor typos in directory names
 shopt -s no_empty_cmd_completion       # don't scan $PATH on a bare Tab
 shopt -s checkjobs                     # warn before exiting with running jobs
 
-# --- Completion ------------------------------------------------------------
-# 200+ packages drop completion scripts into /usr/share/bash-completion/
-# completions/, but nothing loads them until the bash-completion package
-# itself is installed:  sudo xbps-install -S bash-completion
-if [ -r /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-fi
-
 # --- Colours ---------------------------------------------------------------
 if [ -x /usr/bin/dircolors ]; then
     eval "$(dircolors -b "$HOME/.dircolors" 2>/dev/null || dircolors -b)"
@@ -102,12 +94,7 @@ alias du='du -h'
 alias free='free -h'
 alias path='printf "%s\n" ${PATH//:/ }'
 alias ports='ss -tulpn'
-alias reload='exec bash -l'
-alias g='git'
 alias lg='lazygit'
-alias vim='nvim'
-alias vi='nvim'
-alias sv='sudo sv'                       # runit service control
 
 if command -v bat >/dev/null; then
     alias bathelp='bat --plain --language=help'
@@ -148,8 +135,6 @@ extract() {
     esac
 }
 
-# Serve the current directory over HTTP, default port 8000.
-serve() { python3 -m http.server "${1:-8000}"; }
 
 # --- fzf -------------------------------------------------------------------
 if command -v fzf >/dev/null; then
@@ -174,37 +159,6 @@ if command -v fzf >/dev/null; then
     [ -r /usr/share/fzf/completion.bash ]   && . /usr/share/fzf/completion.bash
 fi
 
-# --- Prompt ----------------------------------------------------------------
-# Kept cheap: one `git` call inside a repo, none outside. The title escape
-# gives foot/ghostty a useful window name, which is what noctalia's window
-# switcher shows; OSC 7 tells the terminal the cwd so a new window opens here.
-__prompt_git() {
-    local branch dirty
-    branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null) ||
-        branch=$(git rev-parse --short HEAD 2>/dev/null) || return
-    [ -n "$(git status --porcelain --untracked-files=no 2>/dev/null)" ] && dirty='*'
-    printf ' \001\033[0;33m\002(%s%s)\001\033[0m\002' "$branch" "$dirty"
-}
-
-__prompt() {
-    local status=$?
-    local reset='\[\033[0m\]' blue='\[\033[1;34m\]' green='\[\033[0;32m\]'
-    local red='\[\033[1;31m\]' dim='\[\033[2m\]'
-    local title='\[\033]0;\u@\h: \w\007\]'
-    local osc7='\[\033]7;file://\h\w\033\\\]'
-    local mark
-
-    if [ "$status" -eq 0 ]; then mark="${green}\$${reset}"
-    else mark="${red}${status}\$${reset}"; fi
-
-    # root gets a red host so a stray sudo -i is obvious
-    if [ "$EUID" -eq 0 ]; then
-        PS1="${title}${osc7}${red}\u@\h${reset}${dim}:${reset}${blue}\w${reset}$(__prompt_git)\n${mark} "
-    else
-        PS1="${title}${osc7}${green}\u@\h${reset}${dim}:${reset}${blue}\w${reset}$(__prompt_git)\n${mark} "
-    fi
-}
-PROMPT_COMMAND="__prompt; $PROMPT_COMMAND"
 
 # --- zoxide ----------------------------------------------------------------
 # Must come last: it prepends its own hook to PROMPT_COMMAND.
