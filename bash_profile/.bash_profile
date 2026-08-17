@@ -2,8 +2,7 @@
 #
 # Everything that belongs in the *environment* lives here rather than in
 # .bashrc, because .bashrc runs again for every nested interactive shell
-# (tmux panes, `bash` inside vim, foot windows spawned by sway). Exporting
-# PATH from .bashrc made it grow one copy of ~/.local/bin per nesting level.
+# (tmux panes, `bash` inside vim, foot windows spawned by sway).
 
 # --- PATH ------------------------------------------------------------------
 # Idempotent so re-sourcing this file cannot duplicate entries.
@@ -15,8 +14,6 @@ path_prepend() {
     esac
 }
 
-path_prepend "$HOME/go/bin"
-path_prepend "$HOME/.cargo/bin"
 path_prepend "$HOME/.local/bin"
 unset -f path_prepend
 export PATH
@@ -34,7 +31,7 @@ export EDITOR=nvim
 export VISUAL=nvim
 export SUDO_EDITOR=nvim          # `sudo -e` / `sudoedit`
 export PAGER=less
-export BROWSER=qutebrowser
+export BROWSER=firefox
 
 # -R keeps colour escapes, -F skips the pager for output shorter than a
 # screen, -X stops less from wiping the screen when it exits.
@@ -54,10 +51,6 @@ export ELECTRON_OZONE_PLATFORM_HINT=auto # VS Code, Discord et al. go native
 export XCURSOR_THEME=Adwaita             # matches ~/.config/xsettingsd
 export XCURSOR_SIZE=24
 
-# Left off deliberately:
-#   SDL_VIDEODRIVER=wayland    breaks SDL1 and pre-2.0.22 SDL2 titles
-#   QT_QPA_PLATFORMTHEME=qt6ct ~/.config/qt6ct has no qt6ct.conf yet, so this
-#                              would only swap the working default for nothing
 
 # --- Interactive setup -----------------------------------------------------
 [ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
