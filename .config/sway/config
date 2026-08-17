@@ -62,7 +62,7 @@ set $term foot
 set $menu noctalia msg panel-toggle launcher
 
 # Your preferred browser
-set $browser firefox
+#set $browser firefox
 set $browser_focus_or_new ~/.config/sway/scripts/browser.sh
 
 # Your preferred floating terminal emulator
