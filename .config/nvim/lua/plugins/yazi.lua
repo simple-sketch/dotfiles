@@ -41,6 +41,10 @@ return {
     opts = {
         -- if you want to open yazi instead of netrw, see below for more info
         open_for_directories = true,
+        -- Use a separate yazi config for the embedded instance (sets
+        -- YAZI_CONFIG_HOME) so <Enter> opens the file straight in nvim instead
+        -- of the interactive opener dialog. Standalone yazi is unaffected.
+        config_home = vim.fn.stdpath("config") .. "/yazi",
         keymaps = {
             show_help = "<f1>",
         },

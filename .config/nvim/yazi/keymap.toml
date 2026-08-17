@@ -1,0 +1,11 @@
+# Config used only by yazi.nvim (via YAZI_CONFIG_HOME, see ../lua/plugins/yazi.lua).
+# Standalone yazi keeps using ~/.config/yazi/keymap.toml.
+# yazi.toml here is a relative symlink to ../../yazi/yazi.toml, so openers stay shared.
+#
+# Inside Neovim, yazi runs in chooser mode, so <Enter> should hand the file
+# straight back to Neovim instead of showing the interactive opener dialog.
+[mgr]
+prepend_keymap = [
+	{ on = "<Enter>", run = "open", desc = "Open selected files" },
+	{ on = "O", run = "open --interactive", desc = "Open selected files interactively" },
+]
