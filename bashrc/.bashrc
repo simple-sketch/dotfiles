@@ -98,9 +98,10 @@ alias lg='lazygit'
 
 if command -v bat >/dev/null; then
     alias bathelp='bat --plain --language=help'
-    # Syntax-highlighted man pages.
-    export MANPAGER="sh -c 'sed -u -e \"s/\\x1b\[[0-9;]*m//g\" | bat -p -l man'"
-    export MANROFFOPT='-c'
+    # Syntax-highlighted man pages. /usr/bin/man is mandoc here, which marks
+    # bold/underline with backspace-overstrike rather than ANSI SGR, so strip
+    # it with col(1). (MANROFFOPT is a man-db/groff knob; mandoc ignores it.)
+    export MANPAGER="sh -c 'col -bx | bat -p -l man'"
 fi
 
 # --- Functions -------------------------------------------------------------
@@ -141,7 +142,7 @@ if command -v fzf >/dev/null; then
     export FZF_DEFAULT_OPTS="
         --height=45% --layout=reverse --border=rounded --info=inline
         --bind=ctrl-/:toggle-preview,ctrl-u:preview-page-up,ctrl-d:preview-page-down
-        --bind=ctrl-y:execute-silent(echo -n {2..} | wl-copy)+abort"
+        --bind='ctrl-y:execute-silent(echo -n {2..} | wl-copy)+abort'"
 
     if command -v fd >/dev/null; then
         export FZF_DEFAULT_COMMAND='fd --type=f --hidden --follow --exclude=.git'
