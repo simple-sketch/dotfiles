@@ -1,3 +1,6 @@
+[mgr]
+show_hidden = true
+
 [opener]
 edit = [
     { run = 'neovide --no-fork "$@"', block = true, desc = "Neovide" },
