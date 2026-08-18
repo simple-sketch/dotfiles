@@ -70,8 +70,6 @@ set $menu noctalia msg panel-toggle launcher
 #   $browser_app_id  the app_id its windows carry, used to find an existing
 #                    window. Check it with: swaymsg -t get_tree | grep app_id
 set $browser waterfox
-set $browser_app_id waterfox
-set $browser_focus_or_new ~/.config/sway/scripts/browser.sh
 
 # Set behaviour for the browser when instantiated to open. Sway opens app and navigates to that workspace
 for_window [app_id="$browser_app_id"] move container to workspace number 1, workspace number 1
@@ -140,6 +138,8 @@ bindsym $mod+Shift+g exec shikanectl switch extend
     bindsym $mod+d exec $menu
 
     # Start your browser (focus an existing one first, new window if already focused)
+    set $browser_app_id $browser
+    set $browser_focus_or_new ~/.config/sway/scripts/browser.sh
     bindsym $mod+y exec $browser_focus_or_new $browser_app_id $browser
 
     # Start your floating terminal
