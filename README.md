@@ -19,6 +19,7 @@ Personal configs for Void Linux + Sway (Wayland).
 | `.config/scripts` | Helper scripts |
 | `.vimrc` | Vim |
 | `.local/bin/waterfox` | Wrapper making the Waterfox flatpak callable as `waterfox` |
+| `.config/mimeapps.list` | Default app associations (which app opens links, HTML, ...) |
 
 ## Install
 
@@ -45,8 +46,16 @@ switching browsers means touching three things:
 |---|---|---|
 | `sway/.config/sway/config` | command + window `app_id` | `$browser` and `$browser_app_id` -- the keybinding, the workspace rule and `browser.sh` all derive from them |
 | `bash_profile/.bash_profile` | command | `$BROWSER`, for CLI tools that spawn a browser |
-| `~/.config/mimeapps.list` | `.desktop` file id | `xdg-mime default <app>.desktop x-scheme-handler/http x-scheme-handler/https text/html application/xhtml+xml` |
+| `mimeapps/.config/mimeapps.list` | `.desktop` file id | `xdg-mime default <app>.desktop x-scheme-handler/http x-scheme-handler/https text/html application/xhtml+xml` |
 
 Find a running window's `app_id` with `swaymsg -t get_tree | grep app_id`. Note
 that `xdg-settings set default-web-browser` refuses to run while `$BROWSER` is
 exported -- use `xdg-mime default` as above instead.
+
+`mimeapps.list` is tracked rather than left to the system because without an
+explicit entry the default is whatever `XDG_DATA_DIRS` happens to list first:
+`/etc/profile.d/flatpak.sh` puts the flatpak exports ahead of `/usr/share`, so
+Waterfox wins over the `firefox` package by ordering alone and would silently
+lose it in a session that does not source `/etc/profile`. Both `xdg-mime` and
+the GTK "always open with" dialog rewrite the file in place, so those choices
+land in this repo through the stow symlink and show up as a diff.

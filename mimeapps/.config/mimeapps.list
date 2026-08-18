@@ -1,0 +1,10 @@
+
+[Default Applications]
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+x-scheme-handler/http=net.waterfox.waterfox.desktop
+x-scheme-handler/https=net.waterfox.waterfox.desktop
+text/html=net.waterfox.waterfox.desktop
+application/xhtml+xml=net.waterfox.waterfox.desktop
+text/xml=net.waterfox.waterfox.desktop
+application/vnd.mozilla.xul+xml=net.waterfox.waterfox.desktop
+text/mml=net.waterfox.waterfox.desktop
