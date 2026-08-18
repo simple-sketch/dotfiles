@@ -1,6 +1,6 @@
 [opener]
 edit = [
-    { run = 'neovide "$@"', orphan = true, desc = "Neovide" },
+    { run = 'neovide --no-fork "$@"', block = true, desc = "Neovide" },
     { run = 'nvim "$@"', block = true, desc = "Neovim" },
     { run = 'zed "$@"', block = true, desc = "Zed" },
     { run = 'vim "$@"', block = true, desc = "Vim" }
