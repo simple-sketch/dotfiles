@@ -31,7 +31,9 @@ export EDITOR=nvim
 export VISUAL=nvim
 export SUDO_EDITOR=nvim          # `sudo -e` / `sudoedit`
 export PAGER=less
-export BROWSER=firefox
+# Waterfox is a flatpak; ~/.local/bin/waterfox wraps it so it can be named
+# in one word here, in the sway config and anywhere else.
+export BROWSER=waterfox
 
 # -R keeps colour escapes, -F skips the pager for output shorter than a
 # screen, -X stops less from wiping the screen when it exits.
@@ -42,7 +44,7 @@ export LESSHISTFILE="$XDG_STATE_HOME/less_history"
 # These are exported for every login shell, not just the tty1 branch below,
 # so a session started some other way (a display manager, `sway` run by hand)
 # gets the same environment.
-export MOZ_ENABLE_WAYLAND=1              # Firefox native Wayland
+export MOZ_ENABLE_WAYLAND=1              # Firefox/Waterfox native Wayland
 export GDK_BACKEND=wayland,x11           # GTK, with XWayland fallback
 export QT_QPA_PLATFORM='wayland;xcb'     # Qt, with XWayland fallback
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1

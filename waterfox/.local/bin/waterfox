@@ -1,0 +1,8 @@
+#!/bin/sh
+# Waterfox is installed as a flatpak. Flatpak exports its launcher as
+# /var/lib/flatpak/exports/bin/net.waterfox.waterfox, but that directory is not
+# on PATH here -- Void's /etc/profile.d/flatpak.sh only extends XDG_DATA_DIRS.
+#
+# This wrapper makes `waterfox` an ordinary command, so the sway config,
+# $BROWSER and anything else that spawns a browser can name it in one word.
+exec flatpak run net.waterfox.waterfox "$@"

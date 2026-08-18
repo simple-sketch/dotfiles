@@ -34,9 +34,6 @@ focus_follows_mouse no
 # Command to see window info(app_id and and other useful stuff) 
 # swaymsg -t get_tree | bat 
 
-# Set behaviour for apps when instantiated to open. Sway opens app and navigates to that workspace
-for_window [app_id="Firefox"] move container to workspace number 1, workspace number 1
-
 # Enable floating for specific apps with some custom resolution
 for_window [app_id="flameshot*"] floating enable
 for_window [app_id="satty*"] floating enable
@@ -61,9 +58,19 @@ set $term foot
 #set $menu wmenu-run
 set $menu noctalia msg panel-toggle launcher
 
-# Your preferred browser
-#set $browser firefox
+# Your preferred browser -- the only place it is named. The keybinding, the
+# workspace rule and browser.sh all derive from these two lines, so switching
+# browsers means editing them and nothing else.
+#   $browser         the command to run. Must be on PATH: ~/.local/bin/waterfox
+#                    is a one-line wrapper around `flatpak run net.waterfox.waterfox`.
+#   $browser_app_id  the app_id its windows carry, used to find an existing
+#                    window. Check it with: swaymsg -t get_tree | grep app_id
+set $browser waterfox
+set $browser_app_id waterfox
 set $browser_focus_or_new ~/.config/sway/scripts/browser.sh
+
+# Set behaviour for the browser when instantiated to open. Sway opens app and navigates to that workspace
+for_window [app_id="$browser_app_id"] move container to workspace number 1, workspace number 1
 
 # Your preferred floating terminal emulator
 set $floating_term alacritty
@@ -129,7 +136,7 @@ bindsym $mod+Shift+g exec shikanectl switch extend
     bindsym $mod+d exec $menu
 
     # Start your browser (focus an existing one first, new window if already focused)
-    bindsym $mod+y exec $browser_focus_or_new
+    bindsym $mod+y exec $browser_focus_or_new $browser_app_id $browser
 
     # Start your floating terminal
     bindsym $mod+Shift+Return exec $floating_term
