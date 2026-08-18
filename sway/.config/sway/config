@@ -21,8 +21,12 @@ exec /usr/libexec/xfce-polkit
 
 # Starting pipewire from sway
 # wireplumber and pipewire-pulse come up as its children via the drop-ins in
-# ~/.config/pipewire/pipewire.conf.d. If audio dies, restart it with: pipewire &
-exec pipewire
+# ~/.config/pipewire/pipewire.conf.d. The script reaps a stack orphaned by an
+# earlier sway session before starting a new one: sway does not kill what it
+# execs, and two wireplumbers on one graph break bluetooth audio -- the stale
+# one holds the bluez endpoints and the headset connects with no output sink.
+# If audio dies, restart it with: ~/.config/sway/scripts/start-audio.sh &
+exec ~/.config/sway/scripts/start-audio.sh
 
 # Window focus on mouseover
 # Options:
