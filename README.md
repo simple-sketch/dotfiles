@@ -8,15 +8,11 @@ Personal configs for Void Linux + Sway (Wayland).
 |---|---|
 | `.config/sway` | Window manager |
 | `.config/noctalia` | Shell / bar |
-| `.config/waybar`, `.config/i3status-rust` | Alt bars |
 | `.config/foot` | Terminal |
 | `.config/nvim` | Neovim (LazyVim) |
 | `.config/yazi` | File manager |
-| `.config/kanshi`, `.config/shikane` | Display profiles |
 | `.config/flameshot`, `.config/satty` | Screenshots |
 | `.config/xdg-desktop-portal` | Portals |
-| `.config/nwg-look` | GTK theming |
-| `.config/scripts` | Helper scripts |
 | `.vimrc` | Vim |
 | `.local/bin/waterfox` | Wrapper making the Waterfox flatpak callable as `waterfox` |
 
