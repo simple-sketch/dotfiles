@@ -7,38 +7,25 @@ return {
     { "nvim-lua/plenary.nvim", lazy = true },
   },
   keys = {
-    -- 👇 in this section, choose your own keymappings!
-    {
-      "<leader>-",
-      mode = { "n", "v" },
-      "<cmd>Yazi<cr>",
-      desc = "Open yazi at the current file",
-    },
-    {
-      -- Open in the current working directory
-      "<leader>cw",
-      "<cmd>Yazi cwd<cr>",
-      desc = "Open the file manager in nvim's working directory",
-    },
-    {
-      "<c-up>",
-      "<cmd>Yazi toggle<cr>",
-      desc = "Resume the last yazi session",
-    },
+    { "<leader>e", mode = { "n", "v" }, "<cmd>Yazi<cr>", desc = "Yazi (current file)" },
+    { "<leader>E", "<cmd>Yazi cwd<cr>", desc = "Yazi (cwd)" },
+    { "<leader>y", "<cmd>Yazi toggle<cr>", desc = "Yazi (resume last session)" },
   },
   ---@type YaziConfig | {}
   opts = {
-    -- if you want to open yazi instead of netrw, see below for more info
-    open_for_directories = false,
+    -- open yazi instead of netrw when a directory is opened
+    open_for_directories = true,
     keymaps = {
       show_help = "<f1>",
     },
+    integrations = {
+      -- defaults are "telescope", which isn't installed in this config
+      grep_in_directory = "snacks.picker",
+      grep_in_selected_files = "snacks.picker",
+    },
   },
-  -- 👇 if you use `open_for_directories=true`, this is recommended
   init = function()
-    -- mark netrw as loaded so it's not loaded at all.
-    --
-    -- More details: https://github.com/mikavilpas/yazi.nvim/issues/802
+    -- mark netrw as loaded so it's not loaded at all
     vim.g.loaded_netrwPlugin = 1
   end,
 }
