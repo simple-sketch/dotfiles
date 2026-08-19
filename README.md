@@ -6,14 +6,18 @@ Personal configs for Void Linux + Sway (Wayland).
 
 | Path | What |
 |---|---|
+| `.bash_profile`, `.bashrc`, `.inputrc` | Bash environment, interactive shell, and Readline |
+| `.gitconfig` | Git defaults and delta integration (identity remains per-project) |
 | `.config/sway` | Window manager |
 | `.config/noctalia` | Shell / bar |
 | `.config/foot` | Terminal |
 | `.config/nvim` | Neovim (LazyVim) |
 | `.config/yazi` | File manager |
+| `.config/lazygit` | Lazygit and delta integration |
 | `.config/flameshot`, `.config/satty` | Screenshots |
 | `.config/xdg-desktop-portal` | Portals |
 | `.vimrc` | Vim |
+| `.local/bin/manpager` | Syntax-highlighted mandoc pager |
 | `.local/bin/waterfox` | Wrapper making the Waterfox flatpak callable as `waterfox` |
 | `.config/mimeapps.list` | Default app associations (which app opens links, HTML, ...) |
 
@@ -23,7 +27,7 @@ Every top-level directory is a GNU stow package whose contents mirror the paths
 it installs into `~`, so `sway/.config/sway/config` lands at `~/.config/sway/config`.
 
 ```
-git clone https://github.com/<user>/dotfiles ~/dotfiles
+git clone https://github.com/simple-sketch/dotfiles ~/dotfiles
 cd ~/dotfiles
 stow */                 # everything, or name packages: stow sway foot
 stow -D waterfox        # remove one again

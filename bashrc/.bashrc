@@ -92,19 +92,21 @@ alias shot='grim -g "$(slurp)" - | wl-copy && notify-send "Screenshot copied"'
 alias df='df -hT -x tmpfs -x devtmpfs'
 alias du='du -h'
 alias free='free -h'
-alias path='printf "%s\n" ${PATH//:/ }'
 alias ports='ss -tulpn'
 alias lg='lazygit'
 
-if command -v bat >/dev/null; then
+if command -v bat >/dev/null && command -v col >/dev/null; then
     alias bathelp='bat --plain --language=help'
     # Syntax-highlighted man pages. /usr/bin/man is mandoc here, which marks
     # bold/underline with backspace-overstrike rather than ANSI SGR, so strip
     # it with col(1). (MANROFFOPT is a man-db/groff knob; mandoc ignores it.)
-    export MANPAGER="sh -c 'col -bx | bat -p -l man'"
+    export MANPAGER="$HOME/.local/bin/manpager"
 fi
 
 # --- Functions -------------------------------------------------------------
+# Print one PATH entry per line without word splitting or pathname expansion.
+path() { printf '%s\n' "${PATH//:/$'\n'}"; }
+
 # yazi wrapper: leaves the shell in whatever directory yazi exited from.
 y() {
     local tmp cwd
@@ -115,7 +117,10 @@ y() {
     command rm -f -- "$tmp"
 }
 
-mkcd() { mkdir -p -- "$1" && cd -- "$1"; }
+mkcd() {
+    [ "$#" -eq 1 ] || { printf 'usage: mkcd DIRECTORY\n' >&2; return 2; }
+    mkdir -p -- "$1" && builtin cd -- "$1"
+}
 
 # Extract any archive without remembering the flags.
 extract() {
