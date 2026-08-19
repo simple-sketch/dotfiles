@@ -64,17 +64,28 @@ set $term foot
 #set $menu wmenu-run
 set $menu noctalia msg panel-toggle launcher
 
-# Your preferred browser -- the only place it is named. The keybinding, the
-# workspace rule and browser.sh all derive from these two lines, so switching
-# browsers means editing them and nothing else.
-#   $browser         the command to run. Must be on PATH: ~/.local/bin/waterfox
-#                    is a one-line wrapper around `flatpak run net.waterfox.waterfox`.
-#   $browser_app_id  the app_id its windows carry, used to find an existing
-#                    window. Check it with: swaymsg -t get_tree | grep app_id
+# Your preferred browser -- the only place it is named. The keybinding and
+# browser.sh both derive from this one line, so switching browsers means
+# editing it and nothing else. It has to be a command on PATH:
+# ~/.local/bin/waterfox is a one-line wrapper around
+# `flatpak run net.waterfox.waterfox`.
+#
+# There is deliberately no $browser_app_id any more. It used to be
+# `set $browser_app_id $browser`, which happened to work for waterfox -- its
+# windows really do carry app_id "waterfox" -- and silently failed for
+# firefox, whose windows carry "Firefox" with a capital F. browser.sh now
+# works out the window identity itself, ignoring case, reverse-DNS flatpak
+# prefixes and packaging suffixes, so any browser can go on this line.
 set $browser waterfox
 
-# Set behaviour for the browser when instantiated to open. Sway opens app and navigates to that workspace
-for_window [app_id="$browser_app_id"] move container to workspace number 1, workspace number 1
+# New browser windows land on workspace 1 because browser.sh switches there
+# before launching, so no app_id-matching for_window rule is needed. (The rule
+# that used to live here never fired: it referenced $browser_app_id 66 lines
+# before that variable was set, and sway substitutes variables in file order,
+# leaving the unset name as a literal that no window can match.) To also force
+# browser windows opened by *other* apps -- a link from a chat client, say --
+# onto workspace 1, add a rule with the real app_id, read from:
+#   swaymsg -t get_tree | grep app_id
 
 # Your preferred floating terminal emulator
 set $floating_term alacritty
@@ -139,10 +150,10 @@ bindsym $mod+Shift+g exec shikanectl switch extend
     # Start your launcher
     bindsym $mod+d exec $menu
 
-    # Start your browser (focus an existing one first, new window if already focused)
-    set $browser_app_id $browser
+    # Start your browser: focus its window, or open a second one if it is
+    # already focused, or launch it on workspace 1 if it is not running.
     set $browser_focus_or_new ~/.config/sway/scripts/browser.sh
-    bindsym $mod+y exec $browser_focus_or_new $browser_app_id $browser
+    bindsym $mod+y exec $browser_focus_or_new $browser
 
     # Start your floating terminal
     bindsym $mod+Shift+Return exec $floating_term
