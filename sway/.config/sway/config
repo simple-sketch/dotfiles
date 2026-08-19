@@ -42,6 +42,8 @@ focus_follows_mouse no
 for_window [app_id="flameshot*"] floating enable
 for_window [app_id="satty*"] floating enable
 for_window [app_id="noctalia*"] floating enable
+# Keep PolicyKit authentication prompts compact instead of tiled/full-screen.
+for_window [app_id="^xfce-polkit$"] floating enable, resize set 520px 280px, move position center
 for_window [app_id="thunar"] floating enable, resize set 1200px 900px, move position center
 for_window [app_id="thunar" title="Properties"] floating enable, resize set  900px 600px, move position center
 
