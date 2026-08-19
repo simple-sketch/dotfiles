@@ -33,7 +33,7 @@ exec ~/.config/sway/scripts/start-audio.sh
 #   yes    - focus follows mouse movements
 #   no     - focus does not follow mouse movements
 #   always - focus always follows mouse, even across different displays or containers without cursor movement
-focus_follows_mouse no
+focus_follows_mouse yes
 
 # Command to see window info(app_id and and other useful stuff) 
 # swaymsg -t get_tree | bat 
@@ -103,6 +103,10 @@ for_window [app_id="Alacritty"] floating enable, resize set 1200px 900px, move p
 
 # Your preferred text editor
 set $text_editor $term -e nvim
+
+# Open Neovide on workspace 2 and switch to it.
+for_window [app_id="(?i)^neovide$"] move container to workspace number 2, workspace number 2
+for_window [class="(?i)^neovide$"] move container to workspace number 2, workspace number 2
 
 # Your preferred window switcher/overview
 set $window_switcher_overview noctalia msg window-switcher
