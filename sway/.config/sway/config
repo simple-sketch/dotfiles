@@ -64,28 +64,38 @@ set $term foot
 #set $menu wmenu-run
 set $menu noctalia msg panel-toggle launcher
 
-# Your preferred browser -- the only place it is named. The keybinding and
-# browser.sh both derive from this one line, so switching browsers means
-# editing it and nothing else. It has to be a command on PATH:
-# ~/.local/bin/waterfox is a one-line wrapper around
+# Your preferred browser -- the only place it is named. It has to be a command
+# on PATH: ~/.local/bin/waterfox is a one-line wrapper around
 # `flatpak run net.waterfox.waterfox`.
 #
-# There is deliberately no $browser_app_id any more. It used to be
-# `set $browser_app_id $browser`, which happened to work for waterfox -- its
-# windows really do carry app_id "waterfox" -- and silently failed for
-# firefox, whose windows carry "Firefox" with a capital F. browser.sh now
-# works out the window identity itself, ignoring case, reverse-DNS flatpak
-# prefixes and packaging suffixes, so any browser can go on this line.
+# This line has to come before the rules below. Sway substitutes variables in
+# file order, and an undefined one is left as a literal -- which is why the old
+# rule here never fired even once: it used $browser_app_id 66 lines before that
+# variable was set, so sway compiled "$browser_app_id" as a regex, and no
+# window's app_id ever looks like that.
 set $browser waterfox
 
-# New browser windows land on workspace 1 because browser.sh switches there
-# before launching, so no app_id-matching for_window rule is needed. (The rule
-# that used to live here never fired: it referenced $browser_app_id 66 lines
-# before that variable was set, and sway substitutes variables in file order,
-# leaving the unset name as a literal that no window can match.) To also force
-# browser windows opened by *other* apps -- a link from a chat client, say --
-# onto workspace 1, add a rule with the real app_id, read from:
+# Browser windows live on workspace 1, and opening one takes you there.
+#
+# Sway matches PCRE2 unanchored, so "(?i)" plus the command name identifies
+# essentially any browser without per-browser tuning: (?i)firefox finds
+# "Firefox", "firefox-esr" and "org.mozilla.firefox"; (?i)waterfox finds
+# "waterfox" and "net.waterfox.waterfox"; (?i)brave finds "Brave-browser" and
+# "com.brave.Browser". app_id is Wayland, class is XWayland, and criteria have
+# no OR, so each needs its own rule.
+#
+# Two kinds of browser need the pattern widened by hand here (and the same
+# pattern exported as BROWSER_ID for browser.sh): one whose app_id does not
+# contain the command name -- google-chrome-stable opens windows called
+# "google-chrome" -- and one short enough to collide, since (?i)zen would also
+# match a stray zenity dialog. Read the real value with:
 #   swaymsg -t get_tree | grep app_id
+#
+# These rules are why browser.sh does no workspace handling of its own: a
+# script on $mod+y only ever sees windows it launched itself, so a link opened
+# from a chat client would never land here. Sway sees all of them.
+for_window [app_id="(?i)$browser"] move container to workspace number 1, workspace number 1
+for_window [class="(?i)$browser"] move container to workspace number 1, workspace number 1
 
 # Your preferred floating terminal emulator
 set $floating_term alacritty
@@ -151,7 +161,8 @@ bindsym $mod+Shift+g exec shikanectl switch extend
     bindsym $mod+d exec $menu
 
     # Start your browser: focus its window, or open a second one if it is
-    # already focused, or launch it on workspace 1 if it is not running.
+    # already focused, or launch it. The script only asks sway questions --
+    # see the criteria documented at the top of it.
     set $browser_focus_or_new ~/.config/sway/scripts/browser.sh
     bindsym $mod+y exec $browser_focus_or_new $browser
 
