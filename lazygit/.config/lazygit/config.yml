@@ -1,4 +1,29 @@
 git:
+  # Delta is a stdin-filter renderer; Lazygit handles paging itself.
   diffRenderers:
-    - colorArg: always
-      command: delta --dark --paging=never
+    - command: delta --dark --paging=never
+
+keybinding:
+  universal:
+    # Replaced by the confirmed custom command below.
+    pushFiles: <disabled>
+
+customCommands:
+  - key: P
+    context: global
+    description: Push current branch (confirm first)
+    command: '{{if eq .Form.Push "yes"}}git push{{else}}true{{end}}'
+    loadingText: Pushing commits...
+    prompts:
+      - type: menu
+        title: "Push '{{.CheckedOutBranch.Name}}' to its configured upstream?"
+        key: Push
+        options:
+          - name: No
+            description: Cancel the push
+            value: "no"
+            key: "n"
+          - name: Yes
+            description: Push the commits
+            value: "yes"
+            key: "y"
