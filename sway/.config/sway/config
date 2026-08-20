@@ -110,11 +110,13 @@ set $browser firefox
 for_window [app_id="(?i)$browser"] move container to workspace number 1, workspace number 1
 for_window [class="(?i)$browser"] move container to workspace number 1, workspace number 1
 
-# Your preferred floating terminal emulator. Match both its native Wayland
-# app_id and its XWayland WM_CLASS fallback.
+# Your preferred floating terminal emulator. Keep this as the executable name;
+# the same variable launches it below and matches its Wayland app_id or
+# XWayland WM_CLASS. The case-insensitive, unanchored match also covers IDs such
+# as org.wezfurlong.wezterm and com.mitchellh.ghostty.
 set $floating_term alacritty
-for_window [app_id="^Alacritty$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
-for_window [class="(?i)^Alacritty$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [app_id="(?i)$floating_term"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [class="(?i)$floating_term"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
 
 # Your preferred text editor
 set $text_editor $term -e nvim
