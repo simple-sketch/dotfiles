@@ -73,7 +73,7 @@ set $menu noctalia msg panel-toggle launcher
 # rule here never fired even once: it used $browser_app_id 66 lines before that
 # variable was set, so sway compiled "$browser_app_id" as a regex, and no
 # window's app_id ever looks like that.
-set $browser waterfox
+set $browser firefox
 
 # Browser windows live on workspace 1, and opening one takes you there.
 #
