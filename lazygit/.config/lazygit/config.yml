@@ -1,7 +1,16 @@
 git:
   # Delta is a stdin-filter renderer; Lazygit handles paging itself.
   diffRenderers:
-    - command: delta --dark --paging=never
+    - name: delta-unified
+      command: delta --dark --paging=never
+    - name: delta-side-by-side
+      command: delta --dark --paging=never --side-by-side
+    - name: word-diff
+      type: rawGit
+      args:
+        - --color-words
+    - name: raw-git
+      type: rawGit
 
 keybinding:
   universal:
