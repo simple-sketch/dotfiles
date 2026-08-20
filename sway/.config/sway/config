@@ -10,8 +10,8 @@ set $right l
 
 # Default geometry for newly created floating windows, as a percentage of the
 # current workspace. Unlike pixel dimensions, this adapts to every output.
-set $floating_width 75
-set $floating_height 85
+set $floating_width 55
+set $floating_height 65
 
 # Push session variables into the D-Bus activation environment, then start the
 # noctalia desktop shell. Anything D-Bus-activated (xdg-desktop-portal, gvfs)
@@ -40,29 +40,33 @@ exec ~/.config/sway/scripts/start-audio.sh
 #   always - focus always follows mouse, even across different displays or containers without cursor movement
 focus_follows_mouse yes
 
-# Command to see window info(app_id and and other useful stuff) 
-# swaymsg -t get_tree | bat 
+# Inspect the identifiers available to window rules. Native Wayland windows use
+# app_id; XWayland windows expose class, instance, window_role and window_type.
+# swaymsg -r -t get_tree | jq '.. | objects | select(.app_id != null or .window != null) | {name, app_id, shell, window_properties}'
 
 # Dynamically size windows that applications create in floating mode.
 for_window [floating] resize set width $floating_width ppt height $floating_height ppt, move position center
 
-# Enable floating for specific apps. Geometry is included in each rule because
-# Sway does not re-run [floating] criteria after a rule changes a tiled window
-# to floating.
-for_window [app_id="flameshot*"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
-for_window [app_id="satty*"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
-for_window [app_id="noctalia*"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+# Enable floating for specific native Wayland apps, using IDs observed on this
+# system. Geometry is included in each rule because Sway does not re-run
+# [floating] criteria after a rule changes a tiled window to floating.
+for_window [app_id="^flameshot$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [app_id="^com[.]gabm[.]satty$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [app_id="^dev[.]noctalia[.]Noctalia$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
 for_window [app_id="^xfce-polkit$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
-for_window [app_id="thunar"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
-for_window [app_id="thunar" title="Properties"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [app_id="(?i)^thunar$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
 
-# Enable floating for common window types and roles.
-for_window [window_type="dialog"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
-for_window [window_type="menu"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
-for_window [window_role="pop-up"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
-for_window [window_role="bubble"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
-for_window [window_role="preferences"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
-for_window [window_role="task_dialog"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+# Match the equivalent WM_CLASS values if an application falls back to
+# XWayland. No XWayland class was observed for Noctalia.
+for_window [class="(?i)^(flameshot|satty|thunar|xfce-polkit)$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+
+# No window_type rules are needed. Sway automatically floats modal, fixed-size,
+# dialog, utility, toolbar and splash windows before evaluating [floating], so
+# the general geometry rule above handles them. Menus, popups, tooltips and
+# notifications retain the size and placement requested by the application.
+# This role fallback covers legacy X11 applications with incomplete type or
+# transient hints; WM_WINDOW_ROLE values are application-defined.
+for_window [window_role="(?i)^(about|organizer|preferences|bubble|page-info|pop-up|task_dialog|toolbox|webconsole)$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
 
 
 
@@ -106,9 +110,11 @@ set $browser firefox
 for_window [app_id="(?i)$browser"] move container to workspace number 1, workspace number 1
 for_window [class="(?i)$browser"] move container to workspace number 1, workspace number 1
 
-# Your preferred floating terminal emulator
+# Your preferred floating terminal emulator. Match both its native Wayland
+# app_id and its XWayland WM_CLASS fallback.
 set $floating_term alacritty
-for_window [app_id="Alacritty"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [app_id="^Alacritty$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [class="(?i)^Alacritty$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
 
 # Your preferred text editor
 set $text_editor $term -e nvim
