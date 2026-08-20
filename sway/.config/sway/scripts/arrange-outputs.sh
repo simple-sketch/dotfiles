@@ -7,13 +7,14 @@
 # then contain the final logical dimensions needed for relative positioning.
 #
 # Usage: arrange-outputs.sh <left-output> [right-output]
-#        arrange-outputs.sh --toggle
+#        arrange-outputs.sh --toggle [extend|portrait]
 #
 # If right-output is omitted, the sole other active output is used. --toggle
 # infers the current left-to-right order and reverses it without a state file.
-# When fewer or more than two outputs are active, it asks Shikane to apply the
-# "extend" profile instead; this makes the same key enable the laptop panel
-# when starting from the one-screen "docked" profile.
+# An optional profile makes the command mode-aware: it reverses the outputs
+# only when that mode is already active and otherwise asks Shikane to apply it.
+# Without a profile, a setup that does not have exactly two active outputs
+# falls back to "extend" for compatibility.
 
 set -eu
 
@@ -22,6 +23,7 @@ die() {
     exit 1
 }
 
+toggle_profile=
 case $# in
     1)
         left=$1
@@ -29,26 +31,63 @@ case $# in
         ;;
     2)
         left=$1
-        requested_right=$2
+        if [ "$left" = --toggle ]; then
+            requested_right=
+            toggle_profile=$2
+            case $toggle_profile in
+                extend | portrait) ;;
+                *) die 'toggle profile must be extend or portrait' ;;
+            esac
+        else
+            requested_right=$2
+        fi
         ;;
-    *) die 'usage: arrange-outputs.sh <left-output> [right-output] | --toggle' ;;
+    *) die 'usage: arrange-outputs.sh <left-output> [right-output] | --toggle [extend|portrait]' ;;
 esac
 
 command -v swaymsg >/dev/null 2>&1 || die 'swaymsg is not installed'
 command -v jq >/dev/null 2>&1 || die 'jq is not installed'
 
 if [ "$left" = --toggle ]; then
-    # Sort spatially rather than trusting get_outputs array order. Reversing
-    # these names makes the current right output the new left output. Widths
-    # and heights are fetched again below so the regular arrangement path is
-    # shared with Shikane's profile hooks.
+    # Sort spatially rather than trusting get_outputs array order. When a
+    # profile was requested, first verify the connector classes and transforms
+    # that distinguish its active mode. A portrait transform may be either 90
+    # or 270 because the usable direction depends on how the display is turned.
+    # Reversing the resulting names makes the current right output the new left
+    # output. Dimensions are fetched again below so this still shares the
+    # regular arrangement path used by Shikane's profile hooks.
     if current_order=$(
         swaymsg -t get_outputs -r 2>/dev/null |
-            jq -er '
+            jq -er --arg profile "$toggle_profile" '
+                def internal:
+                    .name | test("^(eDP|LVDS)-[0-9]+$");
+                def external:
+                    .name
+                    | test("^(DP|HDMI-[AB]|DVI-[ADI]|VGA|USB-C)-[0-9]+(-[0-9]+)*$");
+                def rotated_portrait:
+                    .transform == "90" or .transform == "270";
+
                 [.[]
                     | select(.active == true)
                     | select(.rect.width > 0 and .rect.height > 0)]
                 | select(length == 2)
+                | if $profile == "extend" then
+                    select(
+                        ([.[] | select(internal and .transform == "normal")]
+                            | length == 1)
+                        and ([.[] | select(external and .transform == "normal")]
+                            | length == 1)
+                    )
+                  elif $profile == "portrait" then
+                    select(
+                        ([.[] | select(internal and .transform == "normal")]
+                            | length == 1)
+                        and ([.[] | select(external and rotated_portrait)]
+                            | length == 1)
+                    )
+                  else
+                    .
+                  end
                 | sort_by(.rect.x, .rect.y, .name)
                 | [.[0].name, .[1].name]
                 | @tsv
@@ -63,7 +102,7 @@ EOF
     else
         command -v shikanectl >/dev/null 2>&1 ||
             die 'shikanectl is not installed'
-        exec shikanectl switch extend
+        exec shikanectl switch "${toggle_profile:-extend}"
     fi
 fi
 

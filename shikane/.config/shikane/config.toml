@@ -17,7 +17,8 @@
 # profiles run arrange-outputs.sh after apply. It reads Sway's final logical
 # dimensions (including transform and scale), places the requested output on
 # the left and vertically centers the other output. Sway calls the same helper
-# with --toggle to reverse the current side-by-side order without saved state.
+# with --toggle and a profile name to select that mode, then reverse the current
+# side-by-side order on subsequent key presses without saved state.
 
 # Connector classes. The external expression covers common direct, USB-C dock
 # and DisplayPort-MST names without mistaking the built-in eDP panel for one.
@@ -41,8 +42,9 @@ name = "docked"
     position = "0,0"
     transform = "normal"
 
-# External rotated 90 degrees, laptop panel stays on to its right. The helper
-# derives both output names, the right-hand position and vertical centering.
+# External rotated 90 degrees, laptop panel initially stays on its right. The
+# helper derives both output names, the right-hand position and vertical
+# centering. Mod+Shift+V selects this mode, then toggles which output is left.
 # Manual only: shikanectl switch portrait
 [[profile]]
 name = "portrait"
@@ -61,9 +63,9 @@ name = "portrait"
     transform = "90"
 
 # Both screens on, side by side: external landscape, laptop panel initially to
-# its right. The helper derives both output names and their positions; Sway's
-# Mod+Shift+G binding then toggles which one is on the left. Manual only (regex
-# searches keep it ranked below "docked"):
+# its right. The helper derives both output names and their positions. Sway's
+# Mod+Shift+G binding selects this mode, then toggles which one is on the left.
+# Manual only (regex searches keep it ranked below "docked"):
 #     shikanectl switch extend
 [[profile]]
 name = "extend"

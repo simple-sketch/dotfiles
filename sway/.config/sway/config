@@ -133,15 +133,16 @@ set $window_switcher_overview noctalia msg window-switcher
 # "docked" (laptop panel off); nothing else connected -> "undocked".
 exec_always "pkill -x shikane; shikane"
 
-# Switch to portrait mode (Mod + Shift + v)
-bindsym $mod+Shift+v exec shikanectl switch portrait
+# Select the portrait two-screen layout. Once it is active, each press toggles
+# which screen is on the left (Mod + Shift + v).
+bindsym $mod+Shift+v exec ~/.config/sway/scripts/arrange-outputs.sh --toggle portrait
 
-# Switch to landscape mode (Mod + Shift + b)
+# Switch to external-only landscape mode (Mod + Shift + b).
 bindsym $mod+Shift+b exec shikanectl switch docked
 
-# Toggle the two screens between left-to-right and right-to-left. If only one
-# screen is active, first apply Shikane's side-by-side "extend" profile.
-bindsym $mod+Shift+g exec ~/.config/sway/scripts/arrange-outputs.sh --toggle
+# Select the landscape two-screen layout. Once it is active, each press toggles
+# which screen is on the left (Mod + Shift + g).
+bindsym $mod+Shift+g exec ~/.config/sway/scripts/arrange-outputs.sh --toggle extend
 
 
 ## Input configuration
