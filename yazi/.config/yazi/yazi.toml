@@ -3,8 +3,8 @@ show_hidden = true
 
 [opener]
 edit = [
-    { run = 'neovide --no-fork "$@"', block = true, desc = "Neovide" },
     { run = 'nvim "$@"', block = true, desc = "Neovim" },
+    { run = 'neovide --no-fork "$@"', block = true, desc = "Neovide" },
     { run = 'zed "$@"', block = true, desc = "Zed" },
     { run = 'vim "$@"', block = true, desc = "Vim" }
 ]
