@@ -114,7 +114,7 @@ for_window [class="(?i)$browser"] move container to workspace number 1, workspac
 # the same variable launches it below and matches its Wayland app_id or
 # XWayland WM_CLASS. The case-insensitive, unanchored match also covers IDs such
 # as org.wezfurlong.wezterm and com.mitchellh.ghostty.
-set $floating_term alacritty
+set $floating_term ghostty
 for_window [app_id="(?i)$floating_term"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
 for_window [class="(?i)$floating_term"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
 
@@ -306,12 +306,15 @@ bindsym $mod+Shift+g exec ~/.config/sway/scripts/arrange-outputs.sh --toggle ext
     # Sway has a "scratchpad", which is a bag of holding for windows.
     # You can send windows there and get them back later.
 
-    # Move the currently focused window to the scratchpad
+    # Move the currently focused window to the scratchpad. The external
+    # Vial/QMK keyboard sends keypad keysyms for its minus.
     bindsym $mod+Shift+minus move scratchpad
+    bindsym $mod+Shift+KP_Subtract move scratchpad
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     bindsym $mod+minus scratchpad show
+    bindsym $mod+KP_Subtract scratchpad show
 #
 # Resizing containers:
 #
