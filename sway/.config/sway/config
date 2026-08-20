@@ -8,6 +8,11 @@ set $down j
 set $up k
 set $right l
 
+# Default geometry for newly created floating windows, as a percentage of the
+# current workspace. Unlike pixel dimensions, this adapts to every output.
+set $floating_width 75
+set $floating_height 85
+
 # Push session variables into the D-Bus activation environment, then start the
 # noctalia desktop shell. Anything D-Bus-activated (xdg-desktop-portal, gvfs)
 # inherits this environment, so it has to be set before noctalia connects --
@@ -38,22 +43,26 @@ focus_follows_mouse yes
 # Command to see window info(app_id and and other useful stuff) 
 # swaymsg -t get_tree | bat 
 
-# Enable floating for specific apps with some custom resolution
-for_window [app_id="flameshot*"] floating enable
-for_window [app_id="satty*"] floating enable
-for_window [app_id="noctalia*"] floating enable
-# Keep PolicyKit authentication prompts compact instead of tiled/full-screen.
-for_window [app_id="^xfce-polkit$"] floating enable, resize set 520px 280px, move position center
-for_window [app_id="thunar"] floating enable, resize set 1200px 900px, move position center
-for_window [app_id="thunar" title="Properties"] floating enable, resize set  900px 600px, move position center
+# Dynamically size windows that applications create in floating mode.
+for_window [floating] resize set width $floating_width ppt height $floating_height ppt, move position center
 
-# Enable floating for common window types and roles
-for_window [window_type="dialog"] floating enable
-for_window [window_type="menu"] floating enable
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="bubble"] floating enable
-for_window [window_role="preferences"] floating enable
-for_window [window_role="task_dialog"] floating enable
+# Enable floating for specific apps. Geometry is included in each rule because
+# Sway does not re-run [floating] criteria after a rule changes a tiled window
+# to floating.
+for_window [app_id="flameshot*"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [app_id="satty*"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [app_id="noctalia*"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [app_id="^xfce-polkit$"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [app_id="thunar"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [app_id="thunar" title="Properties"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+
+# Enable floating for common window types and roles.
+for_window [window_type="dialog"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [window_type="menu"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [window_role="pop-up"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [window_role="bubble"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [window_role="preferences"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
+for_window [window_role="task_dialog"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
 
 
 
@@ -99,7 +108,7 @@ for_window [class="(?i)$browser"] move container to workspace number 1, workspac
 
 # Your preferred floating terminal emulator
 set $floating_term alacritty
-for_window [app_id="Alacritty"] floating enable, resize set 1200px 900px, move position center
+for_window [app_id="Alacritty"] floating enable, resize set width $floating_width ppt height $floating_height ppt, move position center
 
 # Your preferred text editor
 set $text_editor $term -e nvim
