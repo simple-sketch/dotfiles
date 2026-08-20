@@ -15,8 +15,9 @@
 # Modes use each display's EDID-preferred resolution and refresh rate. shikane
 # cannot express relative positions (upstream issue #34), so dual-screen
 # profiles run arrange-outputs.sh after apply. It reads Sway's final logical
-# dimensions (including transform and scale), places the matched external
-# output on the left and vertically centers the other output on its right.
+# dimensions (including transform and scale), places the requested output on
+# the left and vertically centers the other output. Sway calls the same helper
+# with --toggle to reverse the current side-by-side order without saved state.
 
 # Connector classes. The external expression covers common direct, USB-C dock
 # and DisplayPort-MST names without mistaking the built-in eDP panel for one.
@@ -59,9 +60,10 @@ name = "portrait"
     position = "0,0"
     transform = "90"
 
-# Both screens on, side by side: external landscape, laptop panel to its right.
-# The helper derives both output names and their positions dynamically.
-# Manual only (regex searches keep it ranked below "docked"):
+# Both screens on, side by side: external landscape, laptop panel initially to
+# its right. The helper derives both output names and their positions; Sway's
+# Mod+Shift+G binding then toggles which one is on the left. Manual only (regex
+# searches keep it ranked below "docked"):
 #     shikanectl switch extend
 [[profile]]
 name = "extend"

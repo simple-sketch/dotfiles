@@ -124,8 +124,9 @@ bindsym $mod+Shift+v exec shikanectl switch portrait
 # Switch to landscape mode (Mod + Shift + b)
 bindsym $mod+Shift+b exec shikanectl switch docked
 
-# Both screens on, laptop panel right of the external one (Mod + Shift + g)
-bindsym $mod+Shift+g exec shikanectl switch extend
+# Toggle the two screens between left-to-right and right-to-left. If only one
+# screen is active, first apply Shikane's side-by-side "extend" profile.
+bindsym $mod+Shift+g exec ~/.config/sway/scripts/arrange-outputs.sh --toggle
 
 
 ## Input configuration

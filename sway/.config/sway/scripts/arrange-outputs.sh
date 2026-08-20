@@ -1,5 +1,5 @@
 #!/bin/sh
-# Arrange two active Sway outputs from left to right and vertically center them.
+# Arrange two active Sway outputs horizontally and vertically center them.
 #
 # Shikane can choose a monitor's preferred mode dynamically, but its position
 # field only accepts absolute coordinates. Run this as an output `exec` after
@@ -7,10 +7,13 @@
 # then contain the final logical dimensions needed for relative positioning.
 #
 # Usage: arrange-outputs.sh <left-output> [right-output]
+#        arrange-outputs.sh --toggle
 #
-# If right-output is omitted, the sole other active output is used. Shikane's
-# exact-cardinality profile matching guarantees that the dual-screen profiles
-# invoking this script have precisely two displays.
+# If right-output is omitted, the sole other active output is used. --toggle
+# infers the current left-to-right order and reverses it without a state file.
+# When fewer or more than two outputs are active, it asks Shikane to apply the
+# "extend" profile instead; this makes the same key enable the laptop panel
+# when starting from the one-screen "docked" profile.
 
 set -eu
 
@@ -20,20 +23,55 @@ die() {
 }
 
 case $# in
-    1 | 2) ;;
-    *) die 'usage: arrange-outputs.sh <left-output> [right-output]' ;;
+    1)
+        left=$1
+        requested_right=
+        ;;
+    2)
+        left=$1
+        requested_right=$2
+        ;;
+    *) die 'usage: arrange-outputs.sh <left-output> [right-output] | --toggle' ;;
 esac
-left=$1
-requested_right=${2-}
+
+command -v swaymsg >/dev/null 2>&1 || die 'swaymsg is not installed'
+command -v jq >/dev/null 2>&1 || die 'jq is not installed'
+
+if [ "$left" = --toggle ]; then
+    # Sort spatially rather than trusting get_outputs array order. Reversing
+    # these names makes the current right output the new left output. Widths
+    # and heights are fetched again below so the regular arrangement path is
+    # shared with Shikane's profile hooks.
+    if current_order=$(
+        swaymsg -t get_outputs -r 2>/dev/null |
+            jq -er '
+                [.[]
+                    | select(.active == true)
+                    | select(.rect.width > 0 and .rect.height > 0)]
+                | select(length == 2)
+                | sort_by(.rect.x, .rect.y, .name)
+                | [.[0].name, .[1].name]
+                | @tsv
+            ' 2>/dev/null
+    ); then
+        old_ifs=$IFS
+        IFS="$(printf '\t')"
+        read -r requested_right left <<EOF
+$current_order
+EOF
+        IFS=$old_ifs
+    else
+        command -v shikanectl >/dev/null 2>&1 ||
+            die 'shikanectl is not installed'
+        exec shikanectl switch extend
+    fi
+fi
 
 # Connector names normally contain only these characters. Restrict them before
 # supplying them to jq or interpolating them into sway commands below.
 case $left:$requested_right in
     *[!A-Za-z0-9._:-]*) die 'unsafe character in output name' ;;
 esac
-
-command -v swaymsg >/dev/null 2>&1 || die 'swaymsg is not installed'
-command -v jq >/dev/null 2>&1 || die 'jq is not installed'
 
 # Output commands run only after Shikane reports a successful apply, but give
 # Sway IPC a short grace period as well. This also makes resume/dock races less
