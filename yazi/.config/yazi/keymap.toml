@@ -1,4 +1,8 @@
 [mgr]
 prepend_keymap = [
+	# Outside Neovim, keep opening the hovered item in a new Neovim instance.
+	# yazi.nvim sets NVIM_CWD: there, enter directories or return files to the
+	# existing Neovim instance instead of nesting Neovim and Yazi sessions.
+	{ on = "<Enter>", run = '''shell --block -- if [ -n "$NVIM_CWD" ]; then if [ -d %h ]; then ya emit enter; else ya emit open --hovered; fi; else nvim %h; fi''', desc = "Open intelligently (reuse Neovim)" },
 	{ on = "o", run = "open --interactive", desc = "Open selected files interactively" },
 ]
